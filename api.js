@@ -1,12 +1,32 @@
 const express = require('express')
 const cors = require('cors')
+const morgan = require('morgan')
+
 const app = express()
 const PORT = 3000
 
 app.use(cors())
 app.use(express.json())
+app.use(morgan(':date[clf] :method :url :status :res[content-length] - :response-time ms'))
 
 app.use(express.urlencoded({ extended: true }))
+
+// 自定義日誌中間件
+app.use((req, res, next) => {
+  console.log(`Received request for ${req.method} ${req.url}`)
+
+  // 記錄請求主體
+  console.log('Request Body:', req.body)
+
+  // 攔截和記錄響應
+  const oldSend = res.send
+  res.send = function(data) {
+    console.log('Response Body:', data)
+    oldSend.apply(res, arguments)
+  }
+
+  next()
+})
 
 // user 使用
 const tokens = {
@@ -124,7 +144,6 @@ app.post('/dev-api/gpt-init', async(req, res) => {
 })
 
 app.post('/dev-api/gpt-init2', async(req, res) => {
-  console.log('L126', req.body)
   const { story } = req.body
   const config = {
     method: 'post',
@@ -146,11 +165,7 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
   }
 
   try {
-    // console.log('L149', config.data)
-    // return res.json({ code: 20000, data: 'success' })
-
     const response = await axios(config)
-    // console.log(response.data)
     return res.json({
       code: 20000, data: response.data
     })
@@ -163,8 +178,6 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
 
 app.post('/dev-api/gpt-message', async(req, res) => {
   const { historyItems } = req.body
-  console.log('L167', historyItems)
-
   const config = {
     method: 'post',
     url: 'https://api.openai.com/v1/chat/completions',
@@ -187,7 +200,6 @@ app.post('/dev-api/gpt-message', async(req, res) => {
   })
   try {
     const response = await axios(config)
-    console.log(response.data)
     return res.json({
       code: 20000, data: response.data
     })
