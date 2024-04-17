@@ -110,7 +110,8 @@ export default {
           message: '訊息已發送'
         })
         this.form.prompt = ''
-        const result = await sendMessage(this.historyItems)
+        const historyItems = [this.initData].concat(this.historyItems)
+        const result = await sendMessage(historyItems)
         console.log(result, 'succesUpdateRes')
         this.historyItems.push({
           role: result.data.choices[0].message.role,
