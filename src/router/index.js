@@ -55,6 +55,18 @@ export const constantRoutes = [
       }
     ]
   },
+  {
+    path: '/prompt-created',
+    component: Layout,
+    children: [
+      {
+        path: 'index',
+        name: 'createPrompt',
+        component: () => import('@/views/prompt/created'),
+        meta: { title: 'CreatePrompt', icon: 'form' }
+      }
+    ]
+  },
 
   {
     path: '/',
