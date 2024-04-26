@@ -38,6 +38,14 @@ Modern browsers and Internet Explorer 10+.
 | --------- | --------- | --------- | --------- |
 | IE10, IE11, Edge| last 2 versions| last 2 versions| last 2 versions
 
+## 資料庫設定
+
+### 建立資料表 migrate 文件
+`npx sequelize-cli migration:generate --name create_users_table`
+
+### 資料庫 migrate
+`npx sequelize-cli db:migrate`
+
 ## 修改於
 
 [PanJiaChen](https://github.com/PanJiaChen/vue-admin-template/)

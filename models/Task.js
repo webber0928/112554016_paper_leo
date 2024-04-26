@@ -1,22 +1,26 @@
 // models/xxx.js
 
 module.exports = (sequelize, DataTypes) => {
-  const User = sequelize.define('User', {
+  const Task = sequelize.define('Task', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    user_no: {
+    teacher_id: {
       type: DataTypes.STRING,
       allowNull: false
     },
-    grade: {
-      type: DataTypes.INTEGER,
+    title: {
+      type: DataTypes.STRING,
+      allowNull: false
+    },
+    learning_content: {
+      type: DataTypes.TEXT,
       allowNull: false
     }
   }, { timestamps: true })
 
-  return User
+  return Task
 }
