@@ -22,7 +22,7 @@
                         {{ myStory }}
                       </div>
                       <div class="text item" v-else>
-                        <!-- <el-skeleton :rows="6"/> -->
+                        <el-skeleton :rows="6" />
                       </div>
                     </el-card>
                   </div>
@@ -92,7 +92,7 @@ export default {
       historyItems: [],
       initData: [],
       myStory: null,
-      myStoryTitle: null,
+      myStoryTitle: null
     }
   },
   computed: {
@@ -112,7 +112,7 @@ export default {
 
         const titleRegex = /Title:\s*(.*)/
         const match = this.myStory.match(titleRegex)
-        this.myStoryTitle = match ? match[1] : "Title not found"
+        this.myStoryTitle = match ? match[1] : 'Title not found'
         this.myStory = this.myStory.split('\n\n').slice(1).join('\n\n')
 
         this.initData = {
