@@ -37,7 +37,7 @@
           </el-col>
           <el-col :span="8">
             <div class="my-chat bg-purple-dark">
-              <el-card class="box-card">
+              <el-card class="box-card" ref="chatBox">
                 <div class="container">
                   <div v-for="(item, index) in historyItems" :key="index" class="history-item" :class="`${item.role === 'user'? 'user': 'model'}-role`">
                     <div class="name">{{ item.role === 'user'? '你': '小夥伴' }}</div>
@@ -103,6 +103,12 @@ export default {
     this.initGptData(this.$route.params.id)
   },
   methods: {
+    scrollToBottom() {
+      // 使用 $refs 来获取 div 元素的引用
+      const chatBox = this.$refs.chatBox
+      // 设置 scrollTop 属性为 chatBox 元素的 scrollHeight，将其滚动到最底部
+      chatBox.scrollTop = chatBox.scrollHeight
+    },
     async initGptData(id) {
       try {
         const loadingInstance = Loading.service({ fullscreen: true })
@@ -155,6 +161,7 @@ export default {
         const historyItems = [this.initData].concat(this.historyItems)
         const result = await sendMessage(historyItems)
         const content = result.data.choices[0].message.content
+        this.scrollToBottom()
 
         this.historyItems.push({
           role: result.data.choices[0].message.role,
@@ -192,7 +199,13 @@ body {
   }
 }
 
+.container {
+  // padding-bottom: 80px;
+  overflow: auto;
+}
+
 .form-container {
+  background: #fff;
   margin-top: 15px;
   border-top: 2px solid rgb(127, 127, 127, 0.5);
 }
@@ -306,6 +319,8 @@ blockquote {
 .chatroom-text ::v-deep {
   .el-card .el-card__body {
     height: 100%;
+    overflow: auto;
+    padding-bottom: 100px;
   }
 
 }
