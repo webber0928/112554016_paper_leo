@@ -29,14 +29,15 @@ app.use((req, res, next) => {
 })
 
 // user 使用
-const tokens = {
-  admin: {
-    token: 'admin-token'
-  },
-  editor: {
-    token: 'editor-token'
-  }
-}
+const tokens = require('./data/token.js')
+// const tokens = {
+//   admin: {
+//     token: 'admin-token'
+//   },
+//   editor: {
+//     token: 'editor-token'
+//   }
+// }
 
 const users = {
   'admin-token': {
