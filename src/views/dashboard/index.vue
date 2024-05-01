@@ -1,7 +1,22 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">name: {{ username }}</div>
-    <el-card class="box-card">
+    <div class="dashboard-text">學號: {{ username }}</div>
+    <el-row :gutter="20">
+      <el-col v-for="(item, index) in items" :key="item.id" :span="8">
+        <div class="grid-content bg-purple">
+          <el-card :body-style="{ padding: '0px' }">
+            <div style="padding: 14px;">
+              <span>文章標題: <b>{{ item.title }}</b></span>
+              <div class="bottom clearfix" style="text-align: center;margin-top: 10px;">
+                <!-- <time class="time">{{ currentDate }}</time> -->
+                <el-button type="text" class="button" @click="go(index)">進入</el-button>
+              </div>
+            </div>
+          </el-card>
+        </div>
+      </el-col>
+    </el-row>
+    <!-- <el-card class="box-card">
       <div slot="header" class="clearfix">
         <span>Prompt</span>
       </div>
@@ -28,7 +43,7 @@
             <code style="white-space: break-spaces;">{{ scope.row.content }}</code>
           </template>
         </el-table-column>
-        <!-- <el-table-column label="Pageviews" width="110" align="center">
+        <el-table-column label="Pageviews" width="110" align="center">
           <template slot-scope="scope">
             {{ scope.row.pageviews }}
           </template>
@@ -38,14 +53,16 @@
             <i class="el-icon-time" />
             <span>{{ scope.row.display_time }}</span>
           </template>
-        </el-table-column> -->
+        </el-table-column>
       </el-table>
-    </el-card>
+    </el-card> -->
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
+import { Loading } from 'element-ui'
+import { getList } from '@/api/story'
 
 export default {
   name: 'Dashboard',
@@ -54,8 +71,31 @@ export default {
       'name', 'username'
     ])
   },
+  created() {
+    this.initData()
+  },
+  methods: {
+    async initData() {
+      try {
+        const loadingInstance = Loading.service({ fullscreen: true })
+        const result = await getList()
+        loadingInstance.close()
+        this.items = result.data.items
+      } catch (error) {
+        this.$message(error)
+      }
+    },
+    async go(index) {
+      try {
+        this.$router.push('/story/' + (index + 1))
+      } catch (error) {
+        this.$message(error)
+      }
+    }
+  },
   data() {
     return {
+      items: [],
       list: [
       {
             "role": "system",

@@ -93,7 +93,7 @@ app.get('/dev-api/story/list', (req, res) => {
 })
 
 app.get('/dev-api/story/:id', (req, res) => {
-  const id = req.params.id + 1
+  const id = req.params.id - 1
   const items = require('./data/story.js')
   return res.json({ code: 20000, data: items[id] })
 })

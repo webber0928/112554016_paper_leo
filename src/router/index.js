@@ -55,6 +55,31 @@ export const constantRoutes = [
       }
     ]
   },
+  // {
+  //   path: '/story/:id(\\d+)',
+  //   name: 'Story',
+  //   component: () => import('@/views/story/index'),
+  //   meta: { title: 'Story', icon: 'el-icon-chat-line-round' },
+  //   // hidden: true
+  // },
+  // {
+  //   path: '/story',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Story',
+  //       component: () => import('@/views/story/index'),
+  //       meta: { title: 'Story', icon: 'el-icon-chat-line-round' }
+  //     }
+  //   ]
+  // },
+  {
+    path: '/story/:id',
+    name: 'Story',
+    component: () => import('@/views/story/index'),
+    meta: { title: 'Story', icon: 'el-icon-chat-line-round' }
+  },
   {
     path: '/prompt-created',
     component: Layout,
