@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">DI LAb</h3>
+        <h3 class="title">英語學習聊天系統</h3>
       </div>
 
       <el-form-item prop="username">
@@ -13,7 +13,7 @@
         <el-input
           ref="username"
           v-model="loginForm.username"
-          placeholder="學號"
+          placeholder="請輸入你的學號"
           name="username"
           type="text"
           tabindex="1"
@@ -21,7 +21,7 @@
         />
       </el-form-item>
 
-      <el-form-item prop="password">
+      <!-- <el-form-item prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -39,14 +39,14 @@
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
-      </el-form-item>
+      </el-form-item> -->
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登入</el-button>
 
-      <div class="tips">
+      <!-- <div class="tips">
         <span style="margin-right:20px;">username: admin</span>
         <span> password: any</span>
-      </div>
+      </div> -->
 
     </el-form>
   </div>
@@ -74,7 +74,8 @@ export default {
     }
     return {
       loginForm: {
-        username: 'admin',
+        username: '',
+        // username: 'admin',
         password: '111111'
       },
       loginRules: {
