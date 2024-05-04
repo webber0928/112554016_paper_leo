@@ -96,7 +96,7 @@ export default {
   filters: {
     replacedText(value) {
       console.log('L98', value)
-      return value.replace(/\((.*?)\)/, '')
+      return value.replace(/\((.*?)\)/g, '')
     }
   },
   created() {
