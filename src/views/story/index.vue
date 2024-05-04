@@ -26,9 +26,9 @@
                       <div class="text item" v-if="myStory">
                         {{ myStory }}
                       </div>
-                      <!-- <div class="text item" v-else> -->
-                        <!-- <el-skeleton :rows="6" /> -->
-                      <!-- </div> -->
+                      <div class="text item" v-else>
+                        <el-skeleton :rows="6" />
+                      </div>
                     </el-card>
                   </div>
                 </el-col>
