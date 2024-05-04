@@ -23,10 +23,10 @@
                       <div slot="header" class="clearfix">
                         <span>故事標題: <b>{{ myStoryTitle }}</b></span>
                       </div>
-                      <div class="text item" v-if="myStory">
+                      <div v-if="myStory" class="text item">
                         {{ myStory }}
                       </div>
-                      <div class="text item" v-else>
+                      <div v-else class="text item">
                         <el-skeleton :rows="6" />
                       </div>
                     </el-card>
@@ -69,6 +69,11 @@ import { Loading } from 'element-ui'
 
 export default {
   name: 'Chatroom',
+  filters: {
+    replacedText(value) {
+      return value.replace(/\((.*?)\)/g, '')
+    }
+  },
   data() {
     return {
       items: '',
