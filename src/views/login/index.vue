@@ -1,6 +1,6 @@
 <template>
   <div class="login-container">
-    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
+    <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left" @submit.prevent>
 
       <div class="title-container">
         <h3 class="title">英語學習聊天系統</h3>
@@ -18,10 +18,11 @@
           type="text"
           tabindex="1"
           auto-complete="on"
+          @keyup.enter.native="handleLogin"
         />
       </el-form-item>
 
-      <!-- <el-form-item prop="password">
+      <el-form-item v-show="false" prop="password">
         <span class="svg-container">
           <svg-icon icon-class="password" />
         </span>
@@ -39,7 +40,7 @@
         <span class="show-pwd" @click="showPwd">
           <svg-icon :icon-class="passwordType === 'password' ? 'eye' : 'eye-open'" />
         </span>
-      </el-form-item> -->
+      </el-form-item>
 
       <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登入</el-button>
 
