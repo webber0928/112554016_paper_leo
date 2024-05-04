@@ -37,20 +37,20 @@
           </el-col>
           <el-col :span="8">
             <div class="my-chat bg-purple-dark">
-              <el-card class="box-card" ref="chatBox">
-                <div class="container">
+              <el-card class="box-card">
+                <div ref="chatBox" class="container">
                   <div v-for="(item, index) in historyItems" :key="index" class="history-item" :class="`${item.role === 'user'? 'user': 'model'}-role`">
                     <div class="name">{{ item.role === 'user'? '你': '小夥伴' }}</div>
                     <blockquote>{{ item.content | replacedText }}</blockquote>
                   </div>
                 </div>
                 <div class="form-container">
-                  <form id="form">
+                  <div id="form">
                     <div class="el-input">
-                      <input v-model="form.prompt" class="el-input__inner" type="text" @keyup.enter="onSubmit" />
+                      <input v-model="form.prompt" class="el-input__inner" type="text" @keyup.enter="onSubmit">
                     </div>
                     <el-button type="primary" @click="onSubmit">送出</el-button>
-                  </form>
+                  </div>
                 </div>
               </el-card>
             </div>
@@ -93,21 +93,13 @@ export default {
   computed: {
     ...mapGetters(['name', 'username'])
   },
-  filters: {
-    replacedText(value) {
-      console.log('L98', value)
-      return value.replace(/\((.*?)\)/g, '')
-    }
-  },
   created() {
     this.initGptData(this.$route.params.id)
   },
   methods: {
     scrollToBottom() {
-      // 使用 $refs 来获取 div 元素的引用
       const chatBox = this.$refs.chatBox
-      // 设置 scrollTop 属性为 chatBox 元素的 scrollHeight，将其滚动到最底部
-      chatBox.scrollTop = chatBox.scrollHeight
+      setTimeout(() => { chatBox.scrollTop = chatBox.scrollHeight }, 150)
     },
     async initGptData(id) {
       try {
@@ -152,6 +144,7 @@ export default {
         role: 'user',
         content: content
       })
+      this.scrollToBottom()
       try {
         this.$message({
           type: 'info',
@@ -161,12 +154,12 @@ export default {
         const historyItems = [this.initData].concat(this.historyItems)
         const result = await sendMessage(historyItems)
         const content = result.data.choices[0].message.content
-        this.scrollToBottom()
 
         this.historyItems.push({
           role: result.data.choices[0].message.role,
           content: content
         })
+        this.scrollToBottom()
       } catch (error) {
         this.$message(error)
       }
@@ -202,6 +195,7 @@ body {
 .container {
   // padding-bottom: 80px;
   overflow: auto;
+  height: 100%;
 }
 
 .form-container {
