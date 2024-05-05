@@ -12,6 +12,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    story_id: {
+      type: DataTypes.INTEGER,
+      allowNull: false
+    },
     isBot: {
       type: DataTypes.BOOLEAN,
       allowNull: false

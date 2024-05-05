@@ -13,7 +13,7 @@ module.exports = {
         type: Sequelize.INTEGER,
         allowNull: false
       },
-      story: {
+      story_id: {
         type: Sequelize.INTEGER,
         allowNull: false
       },
