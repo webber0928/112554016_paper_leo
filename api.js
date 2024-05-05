@@ -32,7 +32,7 @@ app.use((req, res, next) => {
 const tokens = require('./data/token.js')
 const users = require('./data/users.js')
 
-const API_KEY = '$API_KEY'
+const API_KEY = require('./apiKey.js').API_KEY
 app.post('/dev-api/user/login', (req, res) => {
   const { username } = req.body
   const token = tokens[username]
