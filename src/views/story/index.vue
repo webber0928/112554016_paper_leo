@@ -1,11 +1,6 @@
 <template>
   <div class="chatroom-container">
     <div class="chatroom-text">
-      <link
-        href="https://unpkg.com/nes.css@latest/css/nes.min.css"
-        rel="stylesheet"
-      />
-      <link href="https://zpix.vercel.app/app.css" rel="stylesheet" />
       <el-container>
         <el-header>
           <div>
@@ -181,10 +176,10 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-html,
-body {
-  font-family: ZpixReviewLocal, ZpixReviewOnline, sans-serif;
-}
+// html,
+// body {
+//   font-family: ZpixReviewLocal, ZpixReviewOnline, sans-serif;
+// }
 
 .el-card {
   min-width: 460px;
