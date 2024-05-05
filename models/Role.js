@@ -1,26 +1,22 @@
 // models/xxx.js
 
 module.exports = (sequelize, DataTypes) => {
-  const Chatbot = sequelize.define('Chatbot', {
+  const Role = sequelize.define('Role', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    user: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    url: {
+    name: {
       type: DataTypes.STRING,
       allowNull: false
     },
     deleted_at: {
       type: DataTypes.BIGINT,
-      allowNull: false
+      allowNull: true
     }
   }, { timestamps: true })
 
-  return Chatbot
+  return Role
 }

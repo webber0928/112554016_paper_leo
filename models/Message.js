@@ -1,27 +1,26 @@
 // models/xxx.js
 
 module.exports = (sequelize, DataTypes) => {
-  const Teacher = sequelize.define('Teacher', {
+  const Message = sequelize.define('Message', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
       autoIncrement: true,
       primaryKey: true
     },
-    name: {
-      type: DataTypes.STRING,
+    user: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    email: {
-      type: DataTypes.STRING,
+    isBot: {
+      type: DataTypes.BOOLEAN,
       allowNull: false
     },
-    password: {
-      type: DataTypes.STRING,
-      allowNull: true,
-      defaultValue: null
+    message: {
+      type: DataTypes.TEXT,
+      allowNull: false
     }
   }, { timestamps: true })
 
-  return Teacher
+  return Message
 }

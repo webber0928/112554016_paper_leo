@@ -1,7 +1,7 @@
 // models/xxx.js
 
 module.exports = (sequelize, DataTypes) => {
-  const Task = sequelize.define('Task', {
+  const AccessLog = sequelize.define('AccessLog', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -22,5 +22,5 @@ module.exports = (sequelize, DataTypes) => {
     }
   }, { timestamps: true })
 
-  return Task
+  return AccessLog
 }

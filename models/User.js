@@ -12,9 +12,13 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    grade: {
+    role: {
       type: DataTypes.INTEGER,
       allowNull: false
+    },
+    deleted_at: {
+      type: DataTypes.BIGINT,
+      allowNull: true
     }
   }, { timestamps: true })
 
