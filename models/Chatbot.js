@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BIGINT,
       allowNull: true
     }
-  }, { timestamps: true })
+  }, {
+    tableName: 'Chatbot',
+    timestamps: true
+  })
 
   return Chatbot
 }

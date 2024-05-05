@@ -24,7 +24,9 @@ module.exports = {
       deleted_at: {
         type: Sequelize.BIGINT,
         allowNull: true
-      }
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     })
 
     await queryInterface.addIndex('User', ['user_no', 'deleted_at'], { name: 'user_no_deleted_at_index' })

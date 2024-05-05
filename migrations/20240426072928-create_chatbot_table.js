@@ -20,7 +20,9 @@ module.exports = {
       deleted_at: {
         type: Sequelize.BIGINT,
         allowNull: true
-      }
+      },
+      createdAt: Sequelize.DATE,
+      updatedAt: Sequelize.DATE
     })
   },
 

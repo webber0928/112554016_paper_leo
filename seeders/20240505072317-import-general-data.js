@@ -14,10 +14,11 @@ const userList = []
 
 classList.forEach((cls) => {
   noList.forEach((item) => {
+    if (item < 10) item = item.toString().padStart(2, '0')
     userList.push({
       user_no: cls + item,
       group: cls,
-      role: 1
+      role_id: 1
     })
   })
 })
@@ -28,10 +29,17 @@ module.exports = {
       return await Role.create(role)
     })
 
+    await User.create({
+      user_no: 'th01',
+      group: 'teacher',
+      role_id: 2
+    })
+
     await Promise.mapSeries(userList, async(user) => {
       return await User.create({
         user_no: user.user_no,
-        role: user.role
+        group: user.group,
+        role_id: user.role_id
       })
     })
 

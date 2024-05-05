@@ -20,7 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     }
-  }, { timestamps: true })
+  }, {
+    tableName: 'Message',
+    timestamps: true
+  })
 
   return Message
 }

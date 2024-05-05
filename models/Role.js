@@ -16,7 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BIGINT,
       allowNull: true
     }
-  }, { timestamps: true })
+  }, {
+    tableName: 'Role',
+    timestamps: true
+  })
 
   return Role
 }

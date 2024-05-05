@@ -24,7 +24,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.BIGINT,
       allowNull: true
     }
-  }, { timestamps: true })
+  }, {
+    tableName: 'User',
+    timestamps: true
+  })
 
   return User
 }
