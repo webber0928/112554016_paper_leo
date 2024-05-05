@@ -4,7 +4,7 @@
       <el-container>
         <el-header>
           <div>
-            <el-button type="text" plain @click="$router.push('/dashboard')">返回</el-button>
+            <el-button type="text" plain @click="$router.push('/story')">返回</el-button>
           </div>
           學號: {{ username }}
         </el-header>
@@ -18,9 +18,7 @@
                       <div slot="header" class="clearfix">
                         <span>故事標題: <b>{{ myStoryTitle }}</b></span>
                       </div>
-                      <div v-if="myStory" class="text item">
-                        {{ myStory }}
-                      </div>
+                      <div v-if="myStory" class="text item">{{ myStory }}</div>
                       <div v-else class="text item">
                         <el-skeleton :rows="6" />
                       </div>
@@ -122,7 +120,11 @@ export default {
     async initGptData2(initData) {
       try {
         const loadingInstance = Loading.service({ fullscreen: true })
-        const result = await initGpt2(initData)
+        const result = await initGpt2({
+          message: initData,
+          username: this.username,
+          storyId: this.$route.params.id
+        })
         loadingInstance.close()
         this.story = result.data
         this.historyItems.push({
@@ -152,7 +154,11 @@ export default {
         })
         this.form.prompt = ''
         const historyItems = [this.initData].concat(this.historyItems)
-        const result = await sendMessage(historyItems)
+        const result = await sendMessage({
+          messages: historyItems,
+          username: this.username,
+          storyId: this.$route.params.id
+        })
         const content = result.data.choices[0].message.content
 
         this.historyItems.push({

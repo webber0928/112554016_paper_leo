@@ -14,3 +14,11 @@ export function getOne(id) {
     method: 'get'
   })
 }
+
+export function create(params) {
+  return request({
+    url: `/story/`,
+    method: 'post',
+    data: params
+  })
+}

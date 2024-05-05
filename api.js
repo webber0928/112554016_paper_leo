@@ -28,19 +28,34 @@ app.use((req, res, next) => {
   next()
 })
 
+// DB 使用
+const { User, Story, Chatbot, Message } = require('./models')
+
 // user 使用
-const tokens = require('./data/token.js')
 const users = require('./data/users.js')
 
 const API_KEY = require('./apiKey.js').API_KEY
-app.post('/dev-api/user/login', (req, res) => {
+app.post('/dev-api/user/login', async(req, res) => {
   const { username } = req.body
-  const token = tokens[username]
-  if (!token) {
+
+  const user = await User.findOne({
+    where: {
+      user_no: username,
+      deleted_at: null
+    }
+  })
+
+  if (!user) {
     return res.json({
       code: 60204,
-      message: 'Account and password are incorrect.'
+      message: '[Error] 找不到使用者'
     })
+  }
+
+  const token = {
+    ...user,
+    token: user.role_id === 1 ? 'editor-token' : 'admin-token',
+    username
   }
 
   return res.json({ code: 20000, data: token })
@@ -84,18 +99,65 @@ app.get('/dev-api/table/list', (req, res) => {
   }})
 })
 
-app.get('/dev-api/story/list', (req, res) => {
-  const items = require('./data/story.js')
+app.get('/dev-api/story/list', async(req, res) => {
+  const items = await Story.findAll({
+    where: {
+      deleted_at: null
+    }
+  })
   return res.json({ code: 20000, data: {
     total: items.length,
     items: items
   }})
 })
 
-app.get('/dev-api/story/:id', (req, res) => {
-  const id = req.params.id - 1
-  const items = require('./data/story.js')
-  return res.json({ code: 20000, data: items[id] })
+app.post('/dev-api/story', async(req, res) => {
+  const { title, content } = req.body
+  try {
+    await Story.create({
+      title,
+      content
+    })
+    return res.json({ code: 20000, data: {}})
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
+})
+
+app.put('/dev-api/story/:id', async(req, res) => {
+  const { title, content } = req.body
+  try {
+    const item = await Story.findOne({
+      where: {
+        id: req.params.id,
+        deleted_at: null
+      }
+    })
+
+    item.set('title', title)
+    item.set('content', content)
+    await item.save()
+
+    return res.json({ code: 20000, data: {}})
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
+})
+
+app.get('/dev-api/story/:id', async(req, res) => {
+  const item = await Story.findOne({
+    where: {
+      id: req.params.id,
+      deleted_at: null
+    }
+  })
+  return res.json({ code: 20000, data: item })
 })
 
 // chatgpt 使用
@@ -137,88 +199,143 @@ app.post('/dev-api/gpt-init', async(req, res) => {
 })
 
 app.post('/dev-api/gpt-init2', async(req, res) => {
-  const { story } = req.body
-  const config = {
-    method: 'post',
-    url: 'https://api.openai.com/v1/chat/completions',
-    headers: {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    data: {
-      'model': 'gpt-3.5-turbo',
-      'messages': [
+  try {
+    const { message, username, storyId } = req.body
+    const chatbot = await Chatbot.findOne({
+      where: {
+        type: 'questionPrompt',
+        deleted_at: null
+      }
+    })
+    const data = {
+      model: 'gpt-3.5-turbo',
+      messages: [
         {
-          'role': 'system',
-          'content': `
-          您現在是一位專門為國小學生提供閱讀與互動的一對一聊天機器人。在與小學生的對話中，您將根據故事節和意義與內容，持續問小學生問題並且檢查小學生的回答是否正確，讓小學生更深入地了解書中的情節和意義。你要主動給的問題需以以下四點為主軸，並且每次只能有一個問題，請以英文詢問，並且告訴我你選擇哪一個:
-          1.事實(Facts):關注文中的基本事實和細節。提問孩子對於文中發生的事件、各地特色等的了解，請盡量以學習內容的單字與句型為主。如問what, when, where, how, who, which one is true/false,等事實性問題。
-          2.感覺(Feelings):聚焦於文中每個地方不同的情感和感受。問及孩子對於情節感到高興、難過、驚訝等情感的理解。
-          3.發現(Findings):引導孩子思考不同角色的觀點和立場。問及孩子為什麼不同角色有不同的看法，或者他們如何看待文中的事件。
-          4.未來(Future):鼓勵孩子展望故事未來可能發生的事情，提出自己的想法和建議。問及孩子對於故事發展的預測和他們希望故事中發生什麼的看法。
-
-          規則: 1.開始直接先打招呼並詢問小學生第一個跟故事有關的內容了2.在整個對話中，事實(Facts)為主軸的問題至少要問過三次，全部回答正確才能詢問至少兩個感覺(Feelings)、發現(Findings)、未來(Future)的問題。你直接選擇最合適的，不需要讓小朋友知道，例如:用'(事實)'呈現在問號後面3.一次只能問一個問題，一次只能問一個問題4.若你認為學生的回答偏離學習主題，你的回覆也不是在說學習主題時，給予標籤'(例外)'5.在每句話的最後面給予一個標籤，例如:'(例外)'或'(總結)'或'(問題解答)'或'(打招呼)'6. 學生回答不完整，可以用完整回答提示學生以幫助確定答案。7. 學生看不懂題目或故事可以適時用中文提示學生，但不要直接給予答案，但不要直接給予答案，但不要直接給予答案。8. 請在小朋友回答正確之後直接提問下一個問題(請用英文問問題，請用英文問問題，請用英文問問題)，問題問法如規則2。9. 小朋友能正確回答五個問題後才可以給小朋友意見並說再見。
-          `
+          role: 'system',
+          content: chatbot.prompt
         },
-        story
+        message
       ]
     }
-  }
-
-  try {
+    const config = {
+      method: 'post',
+      url: 'https://api.openai.com/v1/chat/completions',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      data
+    }
     const response = await axios(config)
+
+    const user = await User.findOne({
+      where: {
+        user_no: username,
+        deleted_at: null
+      }
+    })
+    const firstData = {
+      user: user.id,
+      story_id: storyId,
+      isBot: 1,
+      message: JSON.stringify(data.messages[0])
+    }
+    await Message.create(firstData)
+
+    const secondData = {
+      user: user.id,
+      story_id: storyId,
+      isBot: 1,
+      message: JSON.stringify(data.messages[1])
+    }
+    await Message.create(secondData)
+
+    const thirdData = {
+      user: user.id,
+      story_id: storyId,
+      isBot: 1,
+      message: JSON.stringify({
+        role: response.data.choices[0].message.role,
+        content: response.data.choices[0].message.content
+      })
+    }
+    await Message.create(thirdData)
+
     return res.json({
       code: 20000, data: response.data
     })
   } catch (error) {
     // 處理錯誤
-    console.error('Error fetching external API:', error)
+    console.error('Error fetching external API:', error.message)
     res.status(500).send('Unable to fetch data from external API.')
   }
 })
 
 app.post('/dev-api/gpt-message', async(req, res) => {
-  const { historyItems } = req.body
-  const config = {
-    method: 'post',
-    url: 'https://api.openai.com/v1/chat/completions',
-    headers: {
-      'Authorization': `Bearer ${API_KEY}`,
-      'Content-Type': 'application/json'
-    },
-    data: {
-      'model': 'gpt-3.5-turbo',
-      'messages': [
-        {
-          'role': 'system',
-          'content': `
-          您現在是一位專門為國小學生提供閱讀與互動的一對一聊天機器人。在與小學生的對話中，您將根據故事節和意義與內容，持續問小學生問題並且檢查小學生的回答是否正確，讓小學生更深入地了解書中的情節和意義。你要主動給的問題需以以下四點為主軸，並且每次只能有一個問題，請以英文詢問，並且告訴我你選擇哪一個:
-          1.事實(Facts):關注文中的基本事實和細節。提問孩子對於文中發生的事件、各地特色等的了解，請盡量以學習內容的單字與句型為主。如問what, when, where, how, who, which one is true/false,等事實性問題。
-          2.感覺(Feelings):聚焦於文中每個地方不同的情感和感受。問及孩子對於情節感到高興、難過、驚訝等情感的理解。
-          3.發現(Findings):引導孩子思考不同角色的觀點和立場。問及孩子為什麼不同角色有不同的看法，或者他們如何看待文中的事件。
-          4.未來(Future):鼓勵孩子展望故事未來可能發生的事情，提出自己的想法和建議。問及孩子對於故事發展的預測和他們希望故事中發生什麼的看法。
-
-          規則: 1.開始直接先打招呼並詢問小學生第一個跟故事有關的內容了2.在整個對話中，事實(Facts)為主軸的問題至少要問過三次，全部回答正確才能詢問至少兩個感覺(Feelings)、發現(Findings)、未來(Future)的問題。你直接選擇最合適的，不需要讓小朋友知道，例如:用'(事實)'呈現在問號後面3.一次只能問一個問題，一次只能問一個問題4.若你認為學生的回答偏離學習主題，你的回覆也不是在說學習主題時，給予標籤'(例外)'5.在每句話的最後面給予一個標籤，例如:'(例外)'或'(總結)'或'(問題解答)'或'(打招呼)'6. 學生回答不完整，可以用完整回答提示學生以幫助確定答案。7. 學生看不懂題目或故事可以適時用中文提示學生，但不要直接給予答案，但不要直接給予答案，但不要直接給予答案。8. 請在小朋友回答正確之後直接提問下一個問題(請用英文問問題，請用英文問問題，請用英文問問題)，問題問法如規則2。9. 小朋友能正確回答五個問題後才可以給小朋友意見並說再見。
-          `
-        }
-      ]
-    }
-  }
-  historyItems.map((item) => {
-    // config.data.messages.push({
-    //   'role': 'system',
-    //   'content': `請在結尾給一個隨意的表情符號, 當問題回答結束, 且學生回答了解, 繼續針對文章用英文問新的英文問題`
-    // })
-    config.data.messages.push(item)
-  })
   try {
+    const { messages, username, storyId } = req.body
+    const chatbot = await Chatbot.findOne({
+      where: {
+        type: 'questionPrompt',
+        deleted_at: null
+      }
+    })
+    const config = {
+      method: 'post',
+      url: 'https://api.openai.com/v1/chat/completions',
+      headers: {
+        'Authorization': `Bearer ${API_KEY}`,
+        'Content-Type': 'application/json'
+      },
+      data: {
+        model: 'gpt-3.5-turbo',
+        messages: [
+          {
+            role: 'system',
+            content: chatbot.prompt
+          }
+        ]
+      }
+    }
+    messages.map((item) => {
+      // config.data.messages.push({
+      //   'role': 'system',
+      //   'content': `請在結尾給一個隨意的表情符號, 當問題回答結束, 且學生回答了解, 繼續針對文章用英文問新的英文問題`
+      // })
+      config.data.messages.push(item)
+    })
     const response = await axios(config)
+    const user = await User.findOne({
+      where: {
+        user_no: username,
+        deleted_at: null
+      }
+    })
+    const firstData = {
+      user: user.id,
+      story_id: storyId,
+      isBot: 0,
+      message: JSON.stringify(messages.pop())
+    }
+    await Message.create(firstData)
+
+    const secondData = {
+      user: user.id,
+      story_id: storyId,
+      isBot: 1,
+      message: JSON.stringify({
+        role: response.data.choices[0].message.role,
+        content: response.data.choices[0].message.content
+      })
+    }
+    await Message.create(secondData)
+
     return res.json({
       code: 20000, data: response.data
     })
   } catch (error) {
     // 處理錯誤
-    console.error('Error fetching external API:', error)
+    console.error('Error fetching external API:', error.message)
     res.status(500).send('Unable to fetch data from external API.')
   }
 })

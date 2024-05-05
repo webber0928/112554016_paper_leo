@@ -43,18 +43,19 @@ export const constantRoutes = [
     hidden: true
   },
 
-  {
-    path: '/chatroom',
-    component: Layout,
-    children: [
-      {
-        path: 'index',
-        name: 'Chatroom',
-        component: () => import('@/views/chatroom/index'),
-        meta: { title: 'Chatroom', icon: 'el-icon-chat-line-round' }
-      }
-    ]
-  },
+  // {
+  //   path: '/chatroom',
+  //   component: Layout,
+  //   children: [
+  //     {
+  //       path: 'index',
+  //       name: 'Chatroom',
+  //       component: () => import('@/views/chatroom/index'),
+  //       meta: { title: 'Chatroom', icon: 'el-icon-chat-line-round' }
+  //     }
+  //   ],
+  //   hidden: true
+  // },
   // {
   //   path: '/story/:id(\\d+)',
   //   name: 'Story',
@@ -74,12 +75,27 @@ export const constantRoutes = [
   //     }
   //   ]
   // },
+
+  {
+    path: '/story/create',
+    component: Layout,
+    children: [{
+      path: '',
+      name: 'StoryCreate',
+      component: () => import('@/views/dashboard/create'),
+      meta: { title: 'StoryCreate', icon: 'dashboard' }
+    }],
+    hidden: true
+  },
+
   {
     path: '/story/:id',
     name: 'Story',
     component: () => import('@/views/story/index'),
-    meta: { title: 'Story', icon: 'el-icon-chat-line-round' }
+    meta: { title: 'Story', icon: 'el-icon-chat-line-round' },
+    hidden: true
   },
+
   {
     path: '/prompt-created',
     component: Layout,
@@ -90,21 +106,21 @@ export const constantRoutes = [
         component: () => import('@/views/prompt/created'),
         meta: { title: 'CreatePrompt', icon: 'form' }
       }
-    ]
+    ],
+    hidden: true
   },
 
   {
     path: '/',
     component: Layout,
-    redirect: '/dashboard',
+    redirect: '/story',
     children: [{
-      path: 'dashboard',
-      name: 'Dashboard',
+      path: 'story',
+      name: 'Story',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: 'Story', icon: 'form' }
     }]
   },
-
   // {
   //   path: '/example',
   //   component: Layout,

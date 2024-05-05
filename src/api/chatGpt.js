@@ -1,11 +1,11 @@
 
 import request from '@/utils/request'
 
-export function sendMessage(historyItems) {
+export function sendMessage(params) {
   return request({
     url: `/gpt-message`,
     method: 'post',
-    data: { historyItems }
+    data: params
   })
 }
 
@@ -15,10 +15,10 @@ export function initGpt() {
     method: 'post'
   })
 }
-export function initGpt2(story) {
+export function initGpt2(params) {
   return request({
     url: '/gpt-init2',
     method: 'post',
-    data: { story }
+    data: params
   })
 }
