@@ -12,8 +12,12 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: false
     },
-    role: {
+    role_id: {
       type: DataTypes.INTEGER,
+      allowNull: false
+    },
+    group: {
+      type: DataTypes.STRING,
       allowNull: false
     },
     deleted_at: {

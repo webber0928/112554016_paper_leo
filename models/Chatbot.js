@@ -8,17 +8,17 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-    user: {
-      type: DataTypes.INTEGER,
-      allowNull: false
-    },
-    url: {
+    type: {
       type: DataTypes.STRING,
       allowNull: false
     },
+    prompt: {
+      type: DataTypes.TEXT,
+      allowNull: true
+    },
     deleted_at: {
       type: DataTypes.BIGINT,
-      allowNull: false
+      allowNull: true
     }
   }, { timestamps: true })
 

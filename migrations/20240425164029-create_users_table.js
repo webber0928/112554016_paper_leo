@@ -13,8 +13,12 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      role: {
+      role_id: {
         type: Sequelize.INTEGER,
+        allowNull: false
+      },
+      group: {
+        type: Sequelize.STRING,
         allowNull: false
       },
       deleted_at: {
@@ -22,6 +26,8 @@ module.exports = {
         allowNull: true
       }
     })
+
+    await queryInterface.addIndex('User', ['user_no', 'deleted_at'], { name: 'user_no_deleted_at_index' })
   },
 
   down: async(queryInterface, Sequelize) => {

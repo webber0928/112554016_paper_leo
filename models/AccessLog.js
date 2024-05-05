@@ -8,16 +8,12 @@ module.exports = (sequelize, DataTypes) => {
       autoIncrement: true,
       primaryKey: true
     },
-    teacher_id: {
-      type: DataTypes.STRING,
+    user: {
+      type: DataTypes.INTEGER,
       allowNull: false
     },
-    title: {
+    url: {
       type: DataTypes.STRING,
-      allowNull: false
-    },
-    learning_content: {
-      type: DataTypes.TEXT,
       allowNull: false
     }
   }, { timestamps: true })

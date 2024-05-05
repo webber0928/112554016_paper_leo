@@ -46,6 +46,9 @@ Modern browsers and Internet Explorer 10+.
 ### 資料庫 migrate
 `npx sequelize-cli db:migrate`
 
+## 資料庫建立基本資料
+`npx sequelize-cli db:seed --seed 20240505072317-import-general-data.js`
+
 ## 修改於
 
 [PanJiaChen](https://github.com/PanJiaChen/vue-admin-template/)

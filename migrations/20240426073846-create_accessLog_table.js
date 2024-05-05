@@ -16,10 +16,6 @@ module.exports = {
       url: {
         type: Sequelize.STRING,
         allowNull: false
-      },
-      deleted_at: {
-        type: Sequelize.BIGINT,
-        allowNull: true
       }
     })
   },
