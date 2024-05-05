@@ -1,11 +1,8 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="文章標題">
-        <el-input v-model="form.title" />
-      </el-form-item>
-      <el-form-item label="文章內容">
-        <el-input v-model="form.content" rows="6" type="textarea" />
+      <el-form-item label="機器人Prompt">
+        <el-input v-model="form.prompt" rows="20" type="textarea" />
       </el-form-item>
       <el-form-item>
         <el-button :loading="loading" type="primary" @click="onSubmit">存檔</el-button>
@@ -16,31 +13,46 @@
 </template>
 
 <script>
-import { create } from '@/api/story'
+import { getPrompt, editPrompt } from '@/api/chatGpt'
+import { Loading } from 'element-ui'
+
 export default {
   data() {
     return {
       form: {
-        title: '',
-        content: ''
+        prompt: ''
       },
+      result: {},
       loading: false
     }
   },
+  created() {
+    this.initGptData()
+  },
   methods: {
+    async initGptData() {
+      try {
+        const loadingInstance = Loading.service({ fullscreen: true })
+        const result = await getPrompt()
+        this.form.prompt = result.data.prompt
+        loadingInstance.close()
+      } catch (error) {
+        this.$message(error)
+      }
+    },
     async onSubmit() {
       this.$message('submit!')
       this.loading = true
-      await create(this.form)
+      await editPrompt(this.form)
       this.loading = false
-      this.$router.push('/story/')
+      this.$router.push('/prompt/')
     },
     onCancel() {
       this.$message({
         message: '取消!',
         type: 'warning'
       })
-      this.$router.push('/story/')
+      this.$router.push('/prompt/')
     }
   }
 }

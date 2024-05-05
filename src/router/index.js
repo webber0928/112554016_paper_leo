@@ -111,6 +111,34 @@ export const constantRoutes = [
   },
 
   {
+    path: '/prompt/edit',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'editPrompt',
+        component: () => import('@/views/prompt/edit'),
+        meta: { title: 'EditPrompt', icon: 'form' }
+      }
+    ],
+    hidden: true
+  },
+
+  {
+    path: '/prompt',
+    component: Layout,
+    children: [
+      {
+        path: '',
+        name: 'listPrompt',
+        component: () => import('@/views/prompt/list'),
+        meta: { title: 'ListPrompt', icon: 'form' }
+      }
+    ],
+    hidden: true
+  },
+
+  {
     path: '/',
     component: Layout,
     redirect: '/story',

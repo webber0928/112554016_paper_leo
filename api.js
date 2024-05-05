@@ -340,13 +340,48 @@ app.post('/dev-api/gpt-message', async(req, res) => {
   }
 })
 
-app.get('/', (req, res) => {
-  res.send('Welcome to my simple Express API!')
+app.put('/dev-api/prompt/edit', async(req, res) => {
+  const { prompt } = req.body
+  try {
+    const chatbot = await Chatbot.findOne({
+      where: {
+        type: 'questionPrompt',
+        deleted_at: null
+      }
+    })
+
+    chatbot.set('prompt', prompt)
+    await chatbot.save()
+
+    return res.json({ code: 20000, data: {}})
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
 })
 
-// GET 路由，返回 JSON 數據
-app.get('/data', (req, res) => {
-  res.json({ id: 1, name: 'John Doe', message: 'Hello from the server!' })
+app.get('/dev-api/prompt', async(req, res) => {
+  try {
+    const chatbot = await Chatbot.findOne({
+      where: {
+        type: 'questionPrompt',
+        deleted_at: null
+      }
+    })
+
+    return res.json({ code: 20000, data: chatbot })
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
+})
+
+app.get('/', (req, res) => {
+  res.send('Welcome to my simple Express API!')
 })
 
 // 啟動服務器

@@ -22,3 +22,18 @@ export function initGpt2(params) {
     data: params
   })
 }
+
+export function editPrompt(params) {
+  return request({
+    url: '/prompt/edit',
+    method: 'put',
+    data: params
+  })
+}
+
+export function getPrompt() {
+  return request({
+    url: '/prompt',
+    method: 'get'
+  })
+}
