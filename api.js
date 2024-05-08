@@ -380,6 +380,72 @@ app.get('/dev-api/prompt', async(req, res) => {
   }
 })
 
+app.get('/dev-api/dashboard/message/user/list', async(req, res) => {
+  try {
+    const Sequelize = require('sequelize')
+    const message = await Message.findAll({
+      where: {},
+      attributes: [
+        'user',
+        [Sequelize.fn('COUNT', Sequelize.col('*')), 'count']
+      ],
+      group: ['user'],
+      raw: true
+    })
+
+    const userObj = message.reduce((obj, item) => {
+      obj[item.user] = item
+      return obj
+    }, {})
+
+    const userModel = await User.findAll({
+      where: {
+        id: Object.keys(userObj),
+        deleted_at: null
+      },
+      attributes: {
+        exclude: ['updatedAt', 'deleted_at', 'role_id', 'createdAt'],
+        include: [
+          [Sequelize.fn('DATE_FORMAT', Sequelize.fn('CONVERT_TZ', Sequelize.col('createdAt'), '+00:00', '+08:00'), '%Y-%m-%d %H:%i:%s'), 'created_date']
+          // [Sequelize.fn('DATE_FORMAT', Sequelize.fn('CONVERT_TZ', Sequelize.col('createdAt'), '+00:00', '+08:00'), '%Y-%m-%d %H:%i:%s'), 'formattedDate']
+        ]
+      },
+      raw: true
+    })
+
+    userModel.forEach(item => {
+      userObj[item.id] = {
+        ...item,
+        count: userObj[item.id].count
+      }
+    })
+
+    return res.json({ code: 20000, data: userObj })
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
+})
+
+app.get('/dev-api/dashboard/message/user/:userId', async(req, res) => {
+  try {
+    const message = await Message.findAll({
+      where: {
+        user: req.params.userId
+      },
+    })
+
+    return res.json({ code: 20000, data: message })
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
+})
+
 app.get('/', (req, res) => {
   res.send('Welcome to my simple Express API!')
 })
