@@ -139,6 +139,29 @@ export const constantRoutes = [
   },
 
   {
+    path: '/teacher',
+    component: Layout,
+    redirect: '/teacher/home',
+    name: 'Teacher',
+    meta: { title: 'Teacher', icon: 'el-icon-s-help' },
+    children: [
+      {
+        path: 'home',
+        name: 'Table',
+        component: () => import('@/views/teacher/home'),
+        meta: { title: 'Table', icon: 'table' }
+      },
+      {
+        path: 'student/list',
+        name: 'Tree',
+        component: () => import('@/views/teacher/studentList'),
+        meta: { title: 'Tree', icon: 'tree' }
+      }
+    ],
+    hidden: true
+  },
+
+  {
     path: '/',
     component: Layout,
     redirect: '/story',
