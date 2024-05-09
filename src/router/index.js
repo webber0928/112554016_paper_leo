@@ -243,6 +243,72 @@ export const constantRoutes = [
   //   ]
   // },
 
+  {
+    path: '/teacher',
+    component: Layout,
+    redirect: '/teacher',
+    name: 'Teacher',
+    meta: {
+      title: 'Teacher',
+      icon: 'nested'
+    },
+    children: [
+      {
+        path: '',
+        component: () => import('@/views/teacher/menu1/index'), // Parent router-view
+        name: 'Menu1',
+        meta: { title: 'Menu1' },
+        children: [
+          {
+            path: 'dashbord',
+            component: () => import('@/views/teacher/dashbord'),
+            name: 'dashbord',
+            meta: { title: '學生資料' }
+          },
+          {
+            path: 'user/:id',
+            component: () => import('@/views/teacher/userOne'),
+            name: 'user',
+            meta: { title: '學生資料' },
+            hidden: true
+          },
+          {
+            path: 'menu1-2',
+            component: () => import('@/views/teacher/menu1/menu1-2'),
+            name: 'Menu1-2',
+            meta: { title: 'Menu1-2' },
+            children: [
+              {
+                path: 'menu1-2-1',
+                component: () => import('@/views/teacher/menu1/menu1-2/menu1-2-1'),
+                name: 'Menu1-2-1',
+                meta: { title: 'Menu1-2-1' }
+              },
+              {
+                path: 'menu1-2-2',
+                component: () => import('@/views/teacher/menu1/menu1-2/menu1-2-2'),
+                name: 'Menu1-2-2',
+                meta: { title: 'Menu1-2-2' }
+              }
+            ]
+          },
+          {
+            path: 'menu1-3',
+            component: () => import('@/views/teacher/menu1/menu1-3'),
+            name: 'Menu1-3',
+            meta: { title: 'Menu1-3' }
+          }
+        ]
+      },
+      {
+        path: 'menu2',
+        component: () => import('@/views/teacher/menu2/index'),
+        name: 'Menu2',
+        meta: { title: 'menu2' }
+      }
+    ]
+  },
+
   // {
   //   path: 'external-link',
   //   component: Layout,
