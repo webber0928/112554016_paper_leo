@@ -252,6 +252,7 @@ export const constantRoutes = [
       title: 'Teacher',
       icon: 'nested'
     },
+    hidden: true,
     children: [
       {
         path: '',

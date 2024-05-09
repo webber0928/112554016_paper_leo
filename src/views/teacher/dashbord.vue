@@ -16,7 +16,7 @@
               </p>
               <p>
                 群組:
-                <b>{{ item.group == "teacher" ? item.group : `${item.user_no[0]}${item.user_no[1]}`}}</b>
+                <b>{{ item.group == "teacher" ? item.group : `${item.user_no[0]}${item.user_no[1]}` }}</b>
               </p>
               <p>
                 次數: <b>{{ item.count }}</b>

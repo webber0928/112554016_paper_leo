@@ -16,11 +16,11 @@
                     <blockquote style="background: #00ff2b3b;padding: 10px 20px;">{{ item.message.content | replacedText }}</blockquote>
                   </div> -->
                   <div v-if="item.message.role == 'user'" :class="`${!item.isBot? 'user': 'model'}-role`">
-                    <div class="name">{{ !item.isBot? '你': '小夥伴' }} {{ `<${item.dateTime}>` }}</div>
+                    <div class="name">{{ !item.isBot? '你': '小夥伴' }} <i>{{ `${item.dateTime}` }}</i></div>
                     <blockquote>{{ item.message.content | replacedText }}</blockquote>
                   </div>
                   <div v-if="item.message.role == 'assistant'" :class="`${!item.isBot? 'user': 'model'}-role`">
-                    <div class="name">{{ !item.isBot? '你': '小夥伴' }} {{ `<${item.dateTime}>` }}</div>
+                    <div class="name">{{ !item.isBot? '你': '小夥伴' }} <i>{{ `${item.dateTime}` }}</i></div>
                     <blockquote>{{ item.message.content | replacedText }}</blockquote>
                   </div>
                   <div v-if="item.message.role == 'system'" :class="`${!item.isBot? 'user': 'model'}-role`">--------------------------------</div>
