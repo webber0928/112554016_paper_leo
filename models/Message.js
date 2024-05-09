@@ -22,7 +22,10 @@ module.exports = (sequelize, DataTypes) => {
     },
     message: {
       type: DataTypes.TEXT,
-      allowNull: false
+      allowNull: false,
+      get: function() {
+        return JSON.parse(this.getDataValue('message'))
+      }
     }
   }, {
     tableName: 'Message',
