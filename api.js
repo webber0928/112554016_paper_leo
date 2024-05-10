@@ -1,6 +1,7 @@
 const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
+const _ = require('lodash')
 
 const app = express()
 const PORT = 3000
@@ -407,7 +408,6 @@ app.get('/dev-api/dashboard/message/user/list', async(req, res) => {
         exclude: ['updatedAt', 'deleted_at', 'role_id', 'createdAt'],
         include: [
           [Sequelize.fn('DATE_FORMAT', Sequelize.fn('CONVERT_TZ', Sequelize.col('createdAt'), '+00:00', '+08:00'), '%Y-%m-%d %H:%i:%s'), 'created_date']
-          // [Sequelize.fn('DATE_FORMAT', Sequelize.fn('CONVERT_TZ', Sequelize.col('createdAt'), '+00:00', '+08:00'), '%Y-%m-%d %H:%i:%s'), 'formattedDate']
         ]
       },
       raw: true
@@ -420,7 +420,7 @@ app.get('/dev-api/dashboard/message/user/list', async(req, res) => {
       }
     })
 
-    return res.json({ code: 20000, data: userObj })
+    return res.json({ code: 20000, data: _.orderBy(userObj, ['user_no', 'count'], ['asc', 'desc']) })
   } catch (error) {
     return res.json({
       code: 60203,
@@ -431,10 +431,18 @@ app.get('/dev-api/dashboard/message/user/list', async(req, res) => {
 
 app.get('/dev-api/dashboard/message/user/:userId', async(req, res) => {
   try {
+    const Sequelize = require('sequelize')
     const message = await Message.findAll({
       where: {
         user: req.params.userId
       },
+      attributes: {
+        exclude: ['id'],
+        include: [
+          [Sequelize.fn('DATE_FORMAT', Sequelize.fn('CONVERT_TZ', Sequelize.col('createdAt'), '+00:00', '+08:00'), '%Y-%m-%d'), 'dateDay'],
+          [Sequelize.fn('DATE_FORMAT', Sequelize.fn('CONVERT_TZ', Sequelize.col('createdAt'), '+00:00', '+08:00'), '%H:%i:%s'), 'dateTime']
+        ]
+      }
     })
 
     return res.json({ code: 20000, data: message })
