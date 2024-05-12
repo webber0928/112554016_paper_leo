@@ -18,7 +18,7 @@
                       <div slot="header" class="clearfix">
                         <span>故事標題: <b>{{ myStoryTitle }}</b></span>
                       </div>
-                      <div v-if="myStory" class="text item">{{ myStory }}</div>
+                      <div v-if="myStory" ref="myStory" class="text item">{{ myStory }}</div>
                       <div v-else class="text item">
                         <el-skeleton :rows="6" />
                       </div>
@@ -90,6 +90,12 @@ export default {
   },
   computed: {
     ...mapGetters(['name', 'username'])
+  },
+  mounted() {
+    this.$refs.myStory.addEventListener('copy', (event) => {
+      event.preventDefault()
+      alert(`不可以壞壞`)
+    })
   },
   created() {
     this.initGptData(this.$route.params.id)
