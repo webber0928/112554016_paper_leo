@@ -2,6 +2,7 @@ const express = require('express')
 const cors = require('cors')
 const morgan = require('morgan')
 const _ = require('lodash')
+const moment = require('moment-timezone')
 
 const app = express()
 const PORT = 3000
@@ -239,7 +240,9 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
       user: user.id,
       story_id: storyId,
       isBot: 1,
-      message: JSON.stringify(data.messages[0])
+      type: data.messages[0].role,
+      message: JSON.stringify(data.messages[0]),
+      execute_date: moment().tz('Asia/Taipei').format('YYYYMMDD')
     }
     await Message.create(firstData)
 
@@ -247,7 +250,9 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
       user: user.id,
       story_id: storyId,
       isBot: 1,
-      message: JSON.stringify(data.messages[1])
+      type: 'story',
+      message: JSON.stringify(data.messages[1]),
+      execute_date: moment().tz('Asia/Taipei').format('YYYYMMDD')
     }
     await Message.create(secondData)
 
@@ -255,10 +260,12 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
       user: user.id,
       story_id: storyId,
       isBot: 1,
+      type: response.data.choices[0].message.role,
       message: JSON.stringify({
         role: response.data.choices[0].message.role,
         content: response.data.choices[0].message.content
-      })
+      }),
+      execute_date: moment().tz('Asia/Taipei').format('YYYYMMDD')
     }
     await Message.create(thirdData)
 
@@ -316,7 +323,9 @@ app.post('/dev-api/gpt-message', async(req, res) => {
       user: user.id,
       story_id: storyId,
       isBot: 0,
-      message: JSON.stringify(messages.pop())
+      type: 'user',
+      message: JSON.stringify(messages.pop()),
+      execute_date: moment().tz('Asia/Taipei').format('YYYYMMDD')
     }
     await Message.create(firstData)
 
@@ -324,10 +333,12 @@ app.post('/dev-api/gpt-message', async(req, res) => {
       user: user.id,
       story_id: storyId,
       isBot: 1,
+      type: response.data.choices[0].message.role,
       message: JSON.stringify({
         role: response.data.choices[0].message.role,
         content: response.data.choices[0].message.content
-      })
+      }),
+      execute_date: moment().tz('Asia/Taipei').format('YYYYMMDD')
     }
     await Message.create(secondData)
 
