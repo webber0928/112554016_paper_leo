@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER,
       allowNull: false
     },
+    type: {
+      type: DataTypes.STRING,
+      allowNull: true
+    },
     isBot: {
       type: DataTypes.BOOLEAN,
       allowNull: false
@@ -26,6 +30,10 @@ module.exports = (sequelize, DataTypes) => {
       get: function() {
         return JSON.parse(this.getDataValue('message'))
       }
+    },
+    execute_date: {
+      type: DataTypes.BIGINT,
+      allowNull: false
     }
   }, {
     tableName: 'Message',
