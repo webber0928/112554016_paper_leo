@@ -130,7 +130,7 @@ app.post('/dev-api/story', async(req, res) => {
 })
 
 app.put('/dev-api/story/:id', async(req, res) => {
-  const { title, content } = req.body
+  const { title, content, ranking, words } = req.body
   try {
     const item = await Story.findOne({
       where: {
@@ -141,6 +141,9 @@ app.put('/dev-api/story/:id', async(req, res) => {
 
     item.set('title', title)
     item.set('content', content)
+    item.set('words', words)
+
+    if (ranking) item.set('ranking', ranking)
     await item.save()
 
     return res.json({ code: 20000, data: {}})

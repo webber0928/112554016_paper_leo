@@ -97,6 +97,14 @@ export const constantRoutes = [
   },
 
   {
+    path: '/story/edit/:id',
+    name: 'Story',
+    component: () => import('@/views/dashboard/edit'),
+    meta: { title: 'Story', icon: 'el-icon-chat-line-round' },
+    hidden: true
+  },
+
+  {
     path: '/prompt-created',
     component: Layout,
     children: [

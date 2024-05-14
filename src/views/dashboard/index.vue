@@ -9,7 +9,8 @@
               <span>文章標題: <b>{{ item.title }}</b></span>
               <!-- <div>{{ item.content }}</div> -->
               <div class="bottom clearfix" style="text-align: center;margin-top: 10px;">
-                <el-button type="text" class="button" @click="go(item.id)">進入</el-button>
+                <el-button type="text" class="button" @click="go(item.id, 'story')">進入</el-button>
+                <el-button v-if="token==='admin-token'" type="text" class="button" @click="go(item.id, 'edit')">修改</el-button>
               </div>
             </div>
           </el-card>
@@ -34,7 +35,7 @@ export default {
   },
   computed: {
     ...mapGetters([
-      'name', 'username'
+      'name', 'username', 'token'
     ])
   },
   created() {
@@ -51,9 +52,16 @@ export default {
         this.$message(error)
       }
     },
-    async go(id) {
+    async go(id, type) {
       try {
-        this.$router.push('/story/' + id)
+        switch (type) {
+          case 'edit':
+            this.$router.push('/story/edit/' + id)
+            break
+          default:
+            this.$router.push('/story/' + id)
+            break
+        }
       } catch (error) {
         this.$message(error)
       }
