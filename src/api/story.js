@@ -15,6 +15,14 @@ export function getOne(id) {
   })
 }
 
+export function updateOne(id, params) {
+  return request({
+    url: `/story/${id}`,
+    method: 'put',
+    data: params
+  })
+}
+
 export function create(params) {
   return request({
     url: `/story/`,

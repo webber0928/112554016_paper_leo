@@ -105,7 +105,8 @@ app.get('/dev-api/story/list', async(req, res) => {
   const items = await Story.findAll({
     where: {
       deleted_at: null
-    }
+    },
+    order: [['ranking', 'ASC']]
   })
   return res.json({ code: 20000, data: {
     total: items.length,
@@ -114,11 +115,19 @@ app.get('/dev-api/story/list', async(req, res) => {
 })
 
 app.post('/dev-api/story', async(req, res) => {
-  const { title, content } = req.body
+  const { title, content, words } = req.body
   try {
+    if (!title || !content) throw Error('資料有問題')
+    const item = await Story.findOne({
+      where: {
+        deleted_at: null
+      }
+    })
     await Story.create({
       title,
-      content
+      content,
+      words,
+      ranking: item.length + 1
     })
     return res.json({ code: 20000, data: {}})
   } catch (error) {
@@ -139,9 +148,20 @@ app.put('/dev-api/story/:id', async(req, res) => {
       }
     })
 
-    item.set('title', title)
-    item.set('content', content)
-    item.set('words', words)
+    if (words) {
+      // eslint-disable-next-line no-const-assign
+      words = JSON.stringify(words)
+    }
+
+    if (title && item.title !== title) {
+      item.set('title', title)
+    }
+    if (content && item.content !== content) {
+      item.set('content', content)
+    }
+    if (words && item.words !== words) {
+      item.set('words', words)
+    }
 
     if (ranking) item.set('ranking', ranking)
     await item.save()
