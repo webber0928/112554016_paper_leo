@@ -23,6 +23,7 @@
                         <div v-else class="text item">
                           <el-skeleton :rows="6" />
                         </div>
+                        <audio id="tts-audio" ref="audio" controls style="display: none" src="https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=apple" />
                       </div>
                     </el-card>
                   </div>
@@ -88,7 +89,8 @@ export default {
       initData: [],
       myStory: null,
       myStoryTitle: null,
-      wordObj: {}
+      wordObj: {},
+      selectWords: ''
     }
   },
   computed: {
@@ -207,22 +209,34 @@ export default {
       })
     },
     handleClick(key) {
-      this.$alert(`<h2>${key}: ${this.wordObj[key]}</h2><button @click="playClick">播放</button>`, '單字卡', {
-        dangerouslyUseHTMLString: true
+      this.selectWords = key
+      this.$alert(`
+        <h2>${key}: ${this.wordObj[key]}</h2>
+        <button id="playButton">播放</button>
+        `, '單字卡', {
+        dangerouslyUseHTMLString: true,
+        callback: () => {
+          document.getElementById('playButton').removeEventListener('click', this.playClick)
+        }
+      })
+
+      this.$nextTick(() => {
+        document.getElementById('playButton').addEventListener('click', this.playClick)
       })
     },
     playClick() {
-      alert(123)
+      const audio = this.$refs.audio
+      audio.src = `https://translate.google.com/translate_tts?ie=UTF-8&tl=en&client=tw-ob&q=${this.selectWords}`
+      console.log(audio.src)
+      audio.playbackRate = 0.8
+      audio.volume = 1
+      audio.play()
     }
   }
 }
 </script>
 
 <style lang="scss" scoped>
-// html,
-// body {
-//   font-family: ZpixReviewLocal, ZpixReviewOnline, sans-serif;
-// }
 
 .el-card {
   min-width: 460px;
