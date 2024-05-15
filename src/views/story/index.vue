@@ -18,9 +18,11 @@
                       <div slot="header" class="clearfix">
                         <span>故事標題: <b>{{ myStoryTitle }}</b></span>
                       </div>
-                      <div v-if="myStory" ref="myStory" class="text item">{{ myStory }}</div>
-                      <div v-else class="text item">
-                        <el-skeleton :rows="6" />
+                      <div ref="myStory">
+                        <div v-if="myStory" class="text item" v-html="myStory" />
+                        <div v-else class="text item">
+                          <el-skeleton :rows="6" />
+                        </div>
                       </div>
                     </el-card>
                   </div>
@@ -85,7 +87,8 @@ export default {
       historyItems: [],
       initData: [],
       myStory: null,
-      myStoryTitle: null
+      myStoryTitle: null,
+      wordObj: {}
     }
   },
   computed: {
@@ -95,6 +98,13 @@ export default {
     this.$refs.myStory.addEventListener('copy', (event) => {
       event.preventDefault()
       alert(`不可以壞壞`)
+    })
+
+    // 使用事件委托监听动态生成的按钮点击事件
+    this.$refs.myStory.addEventListener('click', (event) => {
+      if (event.target.tagName === 'BUTTON') {
+        this.handleClick(event.target.textContent)
+      }
     })
   },
   created() {
@@ -112,7 +122,7 @@ export default {
         loadingInstance.close()
         this.itemObj = result.data
         this.myStoryTitle = result.data.title
-        this.myStory = result.data.content
+        this.myStory = this.textFormat(result.data.content, result.data.words || [])
 
         this.initData = {
           role: 'assistant',
@@ -144,6 +154,19 @@ export default {
       } catch (error) {
         this.$message(error)
       }
+    },
+    textFormat(text, words) {
+      console.log(words)
+      words.forEach(word => {
+        const key = word.split(' ')[0]
+        const value = word.split(' ')[1]
+        this.wordObj[key] = value
+        console.log(key, value)
+        const newRegex = new RegExp(key, 'g')
+        text = text.replace(newRegex, `<button @click="handleClick">${key}</button>`)
+      })
+      text = text.replace(/\n/g, '<br>')
+      return text
     },
     async onSubmit() {
       const content = this.form.prompt
@@ -182,6 +205,14 @@ export default {
         message: 'cancel!',
         type: 'warning'
       })
+    },
+    handleClick(key) {
+      this.$alert(`<h2>${key}: ${this.wordObj[key]}</h2><button @click="playClick">播放</button>`, '單字卡', {
+        dangerouslyUseHTMLString: true
+      })
+    },
+    playClick() {
+      alert(123)
     }
   }
 }
@@ -320,7 +351,7 @@ blockquote {
   padding-bottom: 50px;
   overflow: auto;
   text-align: justify;
-  white-space: break-spaces;
+  // white-space: break-spaces;
 }
 .chatroom-text ::v-deep {
   .el-card .el-card__body {
