@@ -11,9 +11,9 @@
             <div style="padding: 14px;">
               <span>編號: <b>{{ item.ranking }}</b></span>
               <p>文章標題: <b>{{ item.title }}</b></p>
-              <div style="height: 85px;">
+              <div v-if="token==='admin-token'" style="height: 85px;">
                 單字卡:<br>
-                {{ item.words }}
+                <el-tag v-for="word in item.words" :key="word" type="info" effect="plain" size="mini">{{ word }}</el-tag>
               </div>
               <div class="bottom clearfix" style="text-align: center;margin-top: 10px;">
                 <el-button type="text" class="button" @click="go(item.id, 'story')">進入</el-button>

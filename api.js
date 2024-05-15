@@ -115,18 +115,20 @@ app.get('/dev-api/story/list', async(req, res) => {
 })
 
 app.post('/dev-api/story', async(req, res) => {
-  const { title, content, words } = req.body
+  const { title, content, words = [] } = req.body
   try {
     if (!title || !content) throw Error('資料有問題')
-    const item = await Story.findOne({
+    const item = await Story.findAll({
       where: {
         deleted_at: null
       }
     })
+
+    const formatWords = JSON.stringify(words)
     await Story.create({
       title,
       content,
-      words,
+      words: formatWords,
       ranking: item.length + 1
     })
     return res.json({ code: 20000, data: {}})
@@ -139,19 +141,16 @@ app.post('/dev-api/story', async(req, res) => {
 })
 
 app.put('/dev-api/story/:id', async(req, res) => {
-  const { title, content, ranking, words } = req.body
+  const { title, content, ranking, words = [] } = req.body
   try {
-    const item = await Story.findOne({
+    const item = await Story.findAll({
       where: {
         id: req.params.id,
         deleted_at: null
       }
     })
 
-    if (words) {
-      // eslint-disable-next-line no-const-assign
-      words = JSON.stringify(words)
-    }
+    const formatWords = JSON.stringify(words)
 
     if (title && item.title !== title) {
       item.set('title', title)
@@ -160,7 +159,7 @@ app.put('/dev-api/story/:id', async(req, res) => {
       item.set('content', content)
     }
     if (words && item.words !== words) {
-      item.set('words', words)
+      item.set('words', formatWords)
     }
 
     if (ranking) item.set('ranking', ranking)
