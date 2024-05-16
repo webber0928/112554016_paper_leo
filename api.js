@@ -105,7 +105,8 @@ app.get('/dev-api/story/list', async(req, res) => {
   const items = await Story.findAll({
     where: {
       deleted_at: null
-    }
+    },
+    order: [['ranking', 'ASC']]
   })
   return res.json({ code: 20000, data: {
     total: items.length,
@@ -114,11 +115,21 @@ app.get('/dev-api/story/list', async(req, res) => {
 })
 
 app.post('/dev-api/story', async(req, res) => {
-  const { title, content } = req.body
+  const { title, content, words = [] } = req.body
   try {
+    if (!title || !content) throw Error('資料有問題')
+    const item = await Story.findAll({
+      where: {
+        deleted_at: null
+      }
+    })
+
+    const formatWords = JSON.stringify(words)
     await Story.create({
       title,
-      content
+      content,
+      words: formatWords,
+      ranking: item.length + 1
     })
     return res.json({ code: 20000, data: {}})
   } catch (error) {
@@ -130,18 +141,26 @@ app.post('/dev-api/story', async(req, res) => {
 })
 
 app.put('/dev-api/story/:id', async(req, res) => {
-  const { title, content, ranking, words } = req.body
+  const { title, content, ranking, words = [] } = req.body
   try {
-    const item = await Story.findOne({
+    const item = await Story.findAll({
       where: {
         id: req.params.id,
         deleted_at: null
       }
     })
 
-    item.set('title', title)
-    item.set('content', content)
-    item.set('words', words)
+    const formatWords = JSON.stringify(words)
+
+    if (title && item.title !== title) {
+      item.set('title', title)
+    }
+    if (content && item.content !== content) {
+      item.set('content', content)
+    }
+    if (words && item.words !== words) {
+      item.set('words', formatWords)
+    }
 
     if (ranking) item.set('ranking', ranking)
     await item.save()
