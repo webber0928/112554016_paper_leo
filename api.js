@@ -195,7 +195,8 @@ app.post('/dev-api/gpt-init', async(req, res) => {
       'Content-Type': 'application/json'
     },
     data: {
-      'model': 'text-embedding-3-small',
+      // 'model': 'text-embedding-3-small',
+      'model': 'gpt-3.5-turbo',
       'messages': [
         {
           'role': 'system',
@@ -232,7 +233,8 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
       }
     })
     const data = {
-      model: 'text-embedding-3-small',
+      // model: 'text-embedding-3-small',
+      model: 'gpt-3.5-turbo',
       messages: [
         {
           role: 'system',
@@ -318,7 +320,8 @@ app.post('/dev-api/gpt-message', async(req, res) => {
         'Content-Type': 'application/json'
       },
       data: {
-        model: 'text-embedding-3-small',
+        // model: 'text-embedding-3-small',
+        model: 'gpt-3.5-turbo',
         messages: [
           {
             role: 'system',
