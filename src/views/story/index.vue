@@ -378,6 +378,10 @@ blockquote {
   // white-space: break-spaces;
 }
 .chatroom-text ::v-deep {
+  -webkit-user-select:none;
+  -moz-user-select:none;
+  -o-user-select:none;
+  user-select:none;
   .el-card .el-card__body {
     height: 100%;
     overflow: auto;
