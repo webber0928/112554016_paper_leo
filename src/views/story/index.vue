@@ -60,7 +60,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { initGpt2, sendMessage } from '@/api/chatGpt'
-import { getOne } from '@/api/story'
+import { getOne, triggerPlay, triggerOpen } from '@/api/story'
 import { Loading } from 'element-ui'
 
 export default {
@@ -163,7 +163,6 @@ export default {
         const key = word.split(' ')[0]
         const value = word.split(' ')[1]
         this.wordObj[key] = value
-        console.log(key, value)
         const newRegex = new RegExp(key, 'g')
         text = text.replace(newRegex, `<button @click="handleClick">${key}</button>`)
       })
@@ -220,6 +219,12 @@ export default {
         }
       })
 
+      triggerOpen({
+        word: key,
+        user_no: this.username,
+        story_id: this.$route.params.id
+      })
+
       this.$nextTick(() => {
         document.getElementById('playButton').addEventListener('click', this.playClick)
       })
@@ -231,6 +236,11 @@ export default {
       audio.playbackRate = 0.8
       audio.volume = 1
       audio.play()
+      triggerPlay({
+        word: this.selectWords,
+        user_no: this.username,
+        story_id: this.$route.params.id
+      })
     }
   }
 }

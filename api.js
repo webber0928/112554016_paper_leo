@@ -494,13 +494,13 @@ app.get('/dev-api/dashboard/message/user/:userId', async(req, res) => {
 
 app.put('/dev-api/trigger/:type/:word', async(req, res) => {
   const { word = null, type = null } = req.params
-  const { user, story_id } = req.body
+  const { user_no, story_id } = req.body
   try {
     if (!word) throw Error('資料有問題')
     if (!type) throw Error('資料有問題')
     const result = await Trigger.findOne({
       where: {
-        user,
+        user_no,
         story_id,
         word,
         type,
@@ -513,7 +513,7 @@ app.put('/dev-api/trigger/:type/:word', async(req, res) => {
       await result.save()
     } else {
       await Trigger.create({
-        user,
+        user_no,
         story_id,
         word,
         type,

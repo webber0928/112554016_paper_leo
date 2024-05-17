@@ -30,3 +30,19 @@ export function create(params) {
     data: params
   })
 }
+
+export function triggerPlay(params) {
+  return request({
+    url: `/trigger/play/${params.word}`,
+    method: 'put',
+    data: params
+  })
+}
+
+export function triggerOpen(params) {
+  return request({
+    url: `/trigger/open/${params.word}`,
+    method: 'put',
+    data: params
+  })
+}
