@@ -31,7 +31,7 @@ app.use((req, res, next) => {
 })
 
 // DB 使用
-const { User, Story, Chatbot, Message } = require('./models')
+const { User, Story, Chatbot, Message, Trigger } = require('./models')
 
 // user 使用
 const users = require('./data/users.js')
@@ -242,6 +242,7 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
         },
         message
       ]
+      // max_tokens: 50
     }
     const config = {
       method: 'post',
@@ -328,6 +329,7 @@ app.post('/dev-api/gpt-message', async(req, res) => {
             content: chatbot.prompt
           }
         ]
+        // max_tokens: 20
       }
     }
     messages.map((item) => {
@@ -482,6 +484,44 @@ app.get('/dev-api/dashboard/message/user/:userId', async(req, res) => {
     })
 
     return res.json({ code: 20000, data: message })
+  } catch (error) {
+    return res.json({
+      code: 60203,
+      message: `[Error] ${error.message}`
+    })
+  }
+})
+
+app.put('/dev-api/trigger/:type/:word', async(req, res) => {
+  const { word = null, type = null } = req.params
+  const { user, story_id } = req.body
+  try {
+    if (!word) throw Error('資料有問題')
+    if (!type) throw Error('資料有問題')
+    const result = await Trigger.findOne({
+      where: {
+        user,
+        story_id,
+        word,
+        type,
+        deleted_at: null
+      }
+    })
+
+    if (result) {
+      result.set('count', result.count + 1)
+      await result.save()
+    } else {
+      await Trigger.create({
+        user,
+        story_id,
+        word,
+        type,
+        count: 1
+      })
+    }
+
+    return res.json({ code: 20000, data: {}})
   } catch (error) {
     return res.json({
       code: 60203,
