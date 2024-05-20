@@ -9,7 +9,7 @@
           學號: {{ username }}
         </el-header>
         <el-row>
-          <el-col :span="16">
+          <el-col :sm="12" :md="14" :xl="16">
             <div class="grid-content bg-purple-dark">
               <el-row>
                 <el-col :span="24">
@@ -31,7 +31,7 @@
               </el-row>
             </div>
           </el-col>
-          <el-col :span="8">
+          <el-col :sm="12" :md="10" :xl="8">
             <div class="my-chat bg-purple-dark">
               <el-card class="box-card">
                 <div ref="chatBox" class="container">
@@ -249,7 +249,7 @@ export default {
 <style lang="scss" scoped>
 
 .el-card {
-  min-width: 460px;
+  min-width: 100%;
   height: 100%;
   margin: auto;
   position: relative;
@@ -354,7 +354,7 @@ blockquote {
 .my-chat {
   // border-radius: 4px;
   min-height: 36px;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 60px);
   padding: 20px;
 }
 .row-bg {
@@ -362,7 +362,7 @@ blockquote {
   background-color: #f9fafc;
 }
 .my-story {
-  height: calc(100vh - 80px);
+  height: calc(100vh - 60px);
   padding: 20px 20px 20px 20px;
 }
 .my-scaffolding {
