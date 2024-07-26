@@ -143,7 +143,7 @@ app.post('/dev-api/story', async(req, res) => {
 app.put('/dev-api/story/:id', async(req, res) => {
   const { title, content, ranking, words = [] } = req.body
   try {
-    const item = await Story.findAll({
+    const item = await Story.findOne({
       where: {
         id: req.params.id,
         deleted_at: null
