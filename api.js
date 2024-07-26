@@ -196,7 +196,7 @@ app.post('/dev-api/gpt-init', async(req, res) => {
     },
     data: {
       // 'model': 'text-embedding-3-small',
-      'model': 'gpt-3.5-turbo',
+      'model': 'gpt-4o-mini',
       'messages': [
         {
           'role': 'system',
@@ -234,7 +234,7 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
     })
     const data = {
       // model: 'text-embedding-3-small',
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
@@ -322,7 +322,7 @@ app.post('/dev-api/gpt-message', async(req, res) => {
       },
       data: {
         // model: 'text-embedding-3-small',
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
