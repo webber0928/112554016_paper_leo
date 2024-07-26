@@ -158,12 +158,12 @@ export default {
       }
     },
     textFormat(text, words) {
-      console.log(words)
+      words = words.sort((a, b) => a.length - b.length)
       words.forEach(word => {
         const key = word.split(' ')[0]
         const value = word.split(' ')[1]
         this.wordObj[key] = value
-        const newRegex = new RegExp(key, 'g')
+        const newRegex = new RegExp(' ' + key, 'g')
         text = text.replace(newRegex, `<button @click="handleClick">${key}</button>`)
       })
       text = text.replace(/\n/g, '<br>')
