@@ -31,10 +31,10 @@ app.use((req, res, next) => {
 })
 
 // DB 使用
-const { User, Story, Chatbot, Message, Trigger } = require('./models')
+const { User, Story, Chatbot, Message, Trigger } = require('./api/models')
 
 // user 使用
-const users = require('./data/users.js')
+const users = require('./api/data/users.js')
 
 const API_KEY = require('./apiKey.js').API_KEY
 app.post('/dev-api/user/login', async(req, res) => {
