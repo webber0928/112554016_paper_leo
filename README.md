@@ -9,6 +9,25 @@ This will automatically open http://localhost:9528
 ```
 sudo apt update
 sudo apt install nginx -y
+curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.5/install.sh | bash
+nvm install 12.22.12
+sudo apt install mysql-server
+sudo mysql_secure_installation
+
+
+# /etc/mysql/mysql.conf.d/mysqld.cnf
+[mysqld]
+user            = mysql
+bind-address            = 0.0.0.0
+key_buffer_size         = 16M
+
+myisam-recover-options  = BACKUP
+
+log_error = /var/log/mysql/error.log
+slow_query_log         = 1
+slow_query_log_file    = /var/log/mysql/mysql-slow.log
+long_query_time = 2
+max_binlog_size   = 100M
 ```
 
 #### vim /etc/nginx/sites-available/default
