@@ -2,16 +2,44 @@
 
 This will automatically open http://localhost:9528
 
-## Build
+#### Linux 安裝 (Ubuntu 22.04)
 
-```bash
-# build for test environment
-npm run build:stage
+安裝相關套件 
 
-# build for production environment
-npm run build:prod
+```
+sudo apt update
+sudo apt install nginx -y
 ```
 
+#### vim /etc/nginx/sites-available/default
+
+```
+# /etc/nginx/sites-available/default
+server {
+    listen 80;
+
+    location / {
+        root /var/www/112554016-paper;
+        try_files $uri $uri/ /index.html;
+    }
+}
+```
+
+#### 建立證書
+
+```
+sudo apt install certbot python3-certbot-nginx -y
+sudo certbot --nginx -d zong-web.japaneast.cloudapp.azure.com
+sudo systemctl reload nginx
+```
+
+### 前端布版
+
+```
+npm run build
+cp -a dist/* www/
+sudo cp -a www/* /var/www/112554016-paper/
+```
 ## Advanced
 
 ```bash
