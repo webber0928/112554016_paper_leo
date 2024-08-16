@@ -31,10 +31,10 @@ app.use((req, res, next) => {
 })
 
 // DB 使用
-const { User, Story, Chatbot, Message, Trigger } = require('./models')
+const { User, Story, Chatbot, Message, Trigger } = require('./api/models')
 
 // user 使用
-const users = require('./data/users.js')
+const users = require('./api/data/users.js')
 
 const API_KEY = require('./apiKey.js').API_KEY
 app.post('/dev-api/user/login', async(req, res) => {
@@ -80,18 +80,18 @@ app.post('/dev-api/user/logout', (req, res) => {
 })
 
 // table 使用
-const Mock = require('mockjs')
+// const Mock = require('mockjs')
 
-const mpckData = Mock.mock({
-  'items|30': [{
-    id: '@id',
-    title: '@sentence(10, 20)',
-    'status|1': ['published', 'draft', 'deleted'],
-    author: 'name',
-    display_time: '@datetime',
-    pageviews: '@integer(300, 5000)'
-  }]
-})
+// const mpckData = Mock.mock({
+//   'items|30': [{
+//     id: '@id',
+//     title: '@sentence(10, 20)',
+//     'status|1': ['published', 'draft', 'deleted'],
+//     author: 'name',
+//     display_time: '@datetime',
+//     pageviews: '@integer(300, 5000)'
+//   }]
+// })
 
 app.get('/dev-api/table/list', (req, res) => {
   const items = mpckData.items
@@ -143,7 +143,7 @@ app.post('/dev-api/story', async(req, res) => {
 app.put('/dev-api/story/:id', async(req, res) => {
   const { title, content, ranking, words = [] } = req.body
   try {
-    const item = await Story.findAll({
+    const item = await Story.findOne({
       where: {
         id: req.params.id,
         deleted_at: null
@@ -196,7 +196,7 @@ app.post('/dev-api/gpt-init', async(req, res) => {
     },
     data: {
       // 'model': 'text-embedding-3-small',
-      'model': 'gpt-3.5-turbo',
+      'model': 'gpt-4o-mini',
       'messages': [
         {
           'role': 'system',
@@ -234,7 +234,7 @@ app.post('/dev-api/gpt-init2', async(req, res) => {
     })
     const data = {
       // model: 'text-embedding-3-small',
-      model: 'gpt-3.5-turbo',
+      model: 'gpt-4o-mini',
       messages: [
         {
           role: 'system',
@@ -322,7 +322,7 @@ app.post('/dev-api/gpt-message', async(req, res) => {
       },
       data: {
         // model: 'text-embedding-3-small',
-        model: 'gpt-3.5-turbo',
+        model: 'gpt-4o-mini',
         messages: [
           {
             role: 'system',
