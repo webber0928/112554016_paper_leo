@@ -77,15 +77,27 @@ export const constantRoutes = [
   // },
 
   {
+    path: '/',
+    component: Layout,
+    redirect: '/story',
+    children: [{
+      path: 'story',
+      name: 'Story',
+      component: () => import('@/views/dashboard/index'),
+      meta: { title: 'Story', icon: 'form' }
+    }]
+  },
+
+  {
     path: '/story/create',
     component: Layout,
     children: [{
       path: '',
       name: 'StoryCreate',
       component: () => import('@/views/dashboard/create'),
-      meta: { title: 'StoryCreate', icon: 'dashboard' }
-    }],
-    hidden: true
+      meta: { title: 'StoryCreate', icon: 'dashboard', roles: ['admin-token'] }
+    }]
+    // hidden: true
   },
 
   {
@@ -140,22 +152,10 @@ export const constantRoutes = [
         path: '',
         name: 'listPrompt',
         component: () => import('@/views/prompt/list'),
-        meta: { title: 'ListPrompt', icon: 'form' }
+        meta: { title: 'ListPrompt', icon: 'form', roles: ['admin-token'] }
       }
-    ],
-    hidden: true
-  },
-
-  {
-    path: '/',
-    component: Layout,
-    redirect: '/story',
-    children: [{
-      path: 'story',
-      name: 'Story',
-      component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Story', icon: 'form' }
-    }]
+    ]
+    // hidden: true
   },
   // {
   //   path: '/example',
@@ -258,9 +258,10 @@ export const constantRoutes = [
     name: 'Teacher',
     meta: {
       title: 'Teacher',
-      icon: 'nested'
+      icon: 'nested',
+      roles: ['admin-token']
     },
-    hidden: true,
+    // hidden: true,
     children: [
       {
         path: '',
@@ -280,41 +281,41 @@ export const constantRoutes = [
             name: 'user',
             meta: { title: '學生資料' },
             hidden: true
-          },
-          {
-            path: 'menu1-2',
-            component: () => import('@/views/teacher/menu1/menu1-2'),
-            name: 'Menu1-2',
-            meta: { title: 'Menu1-2' },
-            children: [
-              {
-                path: 'menu1-2-1',
-                component: () => import('@/views/teacher/menu1/menu1-2/menu1-2-1'),
-                name: 'Menu1-2-1',
-                meta: { title: 'Menu1-2-1' }
-              },
-              {
-                path: 'menu1-2-2',
-                component: () => import('@/views/teacher/menu1/menu1-2/menu1-2-2'),
-                name: 'Menu1-2-2',
-                meta: { title: 'Menu1-2-2' }
-              }
-            ]
-          },
-          {
-            path: 'menu1-3',
-            component: () => import('@/views/teacher/menu1/menu1-3'),
-            name: 'Menu1-3',
-            meta: { title: 'Menu1-3' }
           }
+          // {
+          //   path: 'menu1-2',
+          //   component: () => import('@/views/teacher/menu1/menu1-2'),
+          //   name: 'Menu1-2',
+          //   meta: { title: 'Menu1-2' },
+          //   children: [
+          //     {
+          //       path: 'menu1-2-1',
+          //       component: () => import('@/views/teacher/menu1/menu1-2/menu1-2-1'),
+          //       name: 'Menu1-2-1',
+          //       meta: { title: 'Menu1-2-1' }
+          //     },
+          //     {
+          //       path: 'menu1-2-2',
+          //       component: () => import('@/views/teacher/menu1/menu1-2/menu1-2-2'),
+          //       name: 'Menu1-2-2',
+          //       meta: { title: 'Menu1-2-2' }
+          //     }
+          //   ]
+          // },
+          // {
+          //   path: 'menu1-3',
+          //   component: () => import('@/views/teacher/menu1/menu1-3'),
+          //   name: 'Menu1-3',
+          //   meta: { title: 'Menu1-3' }
+          // }
         ]
-      },
-      {
-        path: 'menu2',
-        component: () => import('@/views/teacher/menu2/index'),
-        name: 'Menu2',
-        meta: { title: 'menu2' }
       }
+      // {
+      //   path: 'menu2',
+      //   component: () => import('@/views/teacher/menu2/index'),
+      //   name: 'Menu2',
+      //   meta: { title: 'menu2' }
+      // }
     ]
   },
 

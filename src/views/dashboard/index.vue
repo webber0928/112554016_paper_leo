@@ -1,7 +1,8 @@
 <template>
   <div class="dashboard-container">
     <div class="dashboard-text">
-      學號: {{ username }}
+      <span v-if="token==='admin-token'">老師介面</span>
+      <span v-else>學號: {{ username }}</span>
       <el-button v-if="token==='admin-token'" type="text" class="button" @click="go(nulll, 'created')">建立新的故事</el-button>
     </div>
     <el-row :gutter="20">

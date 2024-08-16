@@ -11,12 +11,18 @@
 
 <script>
 import pathToRegexp from 'path-to-regexp'
+import { mapGetters } from 'vuex'
 
 export default {
   data() {
     return {
       levelList: null
     }
+  },
+  computed: {
+    ...mapGetters([
+      'token'
+    ])
   },
   watch: {
     $route() {
@@ -36,7 +42,10 @@ export default {
         matched = [{ path: '/dashboard', meta: { title: 'Dashboard' }}].concat(matched)
       }
 
-      this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      this.levelList = matched.filter(item => {
+        console.log(item, 'L46')
+        return item.meta && item.meta.title && item.meta.breadcrumb !== false
+      })
     },
     isDashboard(route) {
       const name = route && route.name

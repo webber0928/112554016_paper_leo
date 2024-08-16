@@ -30,6 +30,7 @@ import { isExternal } from '@/utils/validate'
 import Item from './Item'
 import AppLink from './Link'
 import FixiOSBug from './FixiOSBug'
+import { mapGetters } from 'vuex'
 
 export default {
   name: 'SidebarItem',
@@ -56,9 +57,18 @@ export default {
     this.onlyOneChild = null
     return {}
   },
+  computed: {
+    ...mapGetters([
+      'token'
+    ])
+  },
   methods: {
     hasOneShowingChild(children = [], parent) {
       const showingChildren = children.filter(item => {
+        // 如果有設定權限, 不再權限內的不會看到
+        if (item.meta && item.meta.roles && item.meta.roles[0] !== this.token) {
+          return false
+        }
         if (item.hidden) {
           return false
         } else {
