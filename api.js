@@ -93,13 +93,13 @@ app.post('/dev-api/user/logout', (req, res) => {
 //   }]
 // })
 
-app.get('/dev-api/table/list', (req, res) => {
-  const items = mpckData.items
-  return res.json({ code: 20000, data: {
-    total: items.length,
-    items: items
-  }})
-})
+// app.get('/dev-api/table/list', (req, res) => {
+//   const items = mpckData.items
+//   return res.json({ code: 20000, data: {
+//     total: items.length,
+//     items: items
+//   }})
+// })
 
 app.get('/dev-api/story/list', async(req, res) => {
   const items = await Story.findAll({
