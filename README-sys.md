@@ -1,5 +1,15 @@
 # chatbot-v1
 
+### 啟動方式
+
+```
+#API
+npm run api
+
+#WEB
+npm run dev
+```
+
 #### Linux 安裝 (Ubuntu 22.04)
 
 建立 ssh key
@@ -13,6 +23,7 @@ $ cat ~/.ssh/id_rsa.pub
 
 ```
 sudo apt update
+$ curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.35.3/install.sh | bash #NODE ver: v20.15.0
 sudo apt install nginx -y
 ```
 
@@ -57,3 +68,26 @@ location /api {
         proxy_set_header X-Forwarded-Proto $scheme;
 }
 ```
+
+
+## 資料庫設定
+
+```
+# 建立資料表 migrate 文件
+npx sequelize-cli migration:generate --name create_users_table
+
+# 資料庫 migrate
+npx sequelize-cli db:migrate
+
+# 資料庫建立基本資料
+npx sequelize-cli db:seed --seed 20240505072317-import-general-data.js
+```
+
+### 建立資料表 migrate 文件
+`npx sequelize-cli migration:generate --name create_users_table`
+
+### 資料庫 migrate
+`npx sequelize-cli db:migrate`
+
+## 資料庫建立基本資料
+`npx sequelize-cli db:seed --seed 20240505072317-import-general-data.js`
