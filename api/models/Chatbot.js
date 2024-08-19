@@ -1,5 +1,7 @@
 // models/xxx.js
 
+const { toDefaultValue } = require("sequelize/types/utils")
+
 module.exports = (sequelize, DataTypes) => {
   const Chatbot = sequelize.define('Chatbot', {
     id: {
@@ -15,6 +17,11 @@ module.exports = (sequelize, DataTypes) => {
     prompt: {
       type: DataTypes.TEXT,
       allowNull: true
+    },
+    note: {
+      type: DataTypes.STRING,
+      allowNull: true,
+      defaultValue: null
     },
     deleted_at: {
       type: DataTypes.BIGINT,

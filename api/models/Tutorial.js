@@ -1,7 +1,7 @@
 // models/xxx.js
 
 module.exports = (sequelize, DataTypes) => {
-  const Story = sequelize.define('Story', {
+  const Tutorial = sequelize.define('Tutorial', {
     id: {
       type: DataTypes.INTEGER,
       allowNull: false,
@@ -20,22 +20,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
-    words: {
-      type: DataTypes.TEXT,
-      allowNull: true,
-      get: function() {
-        if (!this.getDataValue('words')) return null
-        return JSON.parse(this.getDataValue('words'))
-      }
+    promptId: {
+      type: DataTypes.INTEGER,
+      allowNull: true
     },
     deleted_at: {
       type: DataTypes.BIGINT,
       allowNull: true
     }
   }, {
-    tableName: 'Story',
+    tableName: 'Tutorial',
     timestamps: true
   })
 
-  return Story
+  return Tutorial
 }

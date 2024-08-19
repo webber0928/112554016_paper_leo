@@ -1,27 +1,27 @@
 const appRoot = require('pkg-dir').sync(__dirname)
 const Promise = require('bluebird')
 
-const { User, Role, Chatbot } = require(`${appRoot}/models`)
+const { User, Role, Chatbot } = require(`${appRoot}/api/models`)
 
 const roles = [
   { name: 'student' },
   { name: 'teacher' }
 ]
 
-const noList = Array.from({ length: 25 }, (_, index) => index + 1)
-const classList = ['51', '52', '53', '54']
-const userList = []
+// const noList = Array.from({ length: 25 }, (_, index) => index + 1)
+// const classList = ['51', '52', '53', '54']
+// const userList = []
 
-classList.forEach((cls) => {
-  noList.forEach((item) => {
-    if (item < 10) item = item.toString().padStart(2, '0')
-    userList.push({
-      user_no: cls + item,
-      group: cls,
-      role_id: 1
-    })
-  })
-})
+// classList.forEach((cls) => {
+//   noList.forEach((item) => {
+//     if (item < 10) item = item.toString().padStart(2, '0')
+//     userList.push({
+//       user_no: cls + item,
+//       group: cls,
+//       role_id: 1
+//     })
+//   })
+// })
 
 module.exports = {
   up: async(queryInterface, Sequelize) => {
@@ -30,18 +30,18 @@ module.exports = {
     })
 
     await User.create({
-      user_no: 'th01',
+      user_no: 'admin',
       group: 'teacher',
       role_id: 2
     })
 
-    await Promise.mapSeries(userList, async(user) => {
-      return await User.create({
-        user_no: user.user_no,
-        group: user.group,
-        role_id: user.role_id
-      })
-    })
+    // await Promise.mapSeries(userList, async(user) => {
+    //   return await User.create({
+    //     user_no: user.user_no,
+    //     group: user.group,
+    //     role_id: user.role_id
+    //   })
+    // })
 
     await Chatbot.create({
       type: 'questionPrompt',

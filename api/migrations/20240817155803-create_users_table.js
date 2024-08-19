@@ -99,7 +99,8 @@ module.exports = {
       },
       note: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true,
+        defaultValue: null
       },
       deleted_at: {
         type: Sequelize.BIGINT,
@@ -144,6 +145,10 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
+      promptId: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+      },
       deleted_at: {
         type: Sequelize.BIGINT,
         allowNull: true
@@ -157,6 +162,7 @@ module.exports = {
     await queryInterface.dropTable('User')
     await queryInterface.dropTable('Role')
     await queryInterface.dropTable('Message')
+    await queryInterface.dropTable('Chatbot')
     await queryInterface.dropTable('AccessLog')
     await queryInterface.dropTable('Tutorial')
   }
