@@ -1,7 +1,5 @@
 // models/xxx.js
 
-const { toDefaultValue } = require("sequelize/types/utils")
-
 module.exports = (sequelize, DataTypes) => {
   const Chatbot = sequelize.define('Chatbot', {
     id: {

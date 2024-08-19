@@ -1,18 +1,18 @@
 
-const { Story } = require('../../models')
+const { Tutorial } = require('../../models')
 
 module.exports = async(req, res) => {
   const { title, content, words = [] } = req.body
   try {
     if (!title || !content) throw Error('資料有問題')
-    const item = await Story.findAll({
+    const item = await Tutorial.findAll({
       where: {
         deleted_at: null
       }
     })
 
     const formatWords = JSON.stringify(words)
-    await Story.create({
+    await Tutorial.create({
       title,
       content,
       words: formatWords,

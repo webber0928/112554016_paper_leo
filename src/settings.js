@@ -1,6 +1,6 @@
 module.exports = {
 
-  title: '英語學習聊天系統',
+  title: '學習聊天系統',
 
   /**
    * @type {boolean} true | false

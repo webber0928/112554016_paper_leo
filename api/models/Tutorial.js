@@ -20,9 +20,18 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
+    link: {
+      type: DataTypes.TEXT,
+      allowNull: true,
+      get: function() {
+        if (!this.getDataValue('link')) return null
+        return JSON.parse(this.getDataValue('link'))
+      }
+    },
     promptId: {
       type: DataTypes.INTEGER,
-      allowNull: true
+      allowNull: true,
+      field: 'prompt_id'
     },
     deleted_at: {
       type: DataTypes.BIGINT,

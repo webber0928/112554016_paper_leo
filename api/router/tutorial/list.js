@@ -1,8 +1,8 @@
 
-const { Story } = require('../../models')
+const { Tutorial } = require('../../models')
 
 module.exports = async(req, res) => {
-  const items = await Story.findAll({
+  const items = await Tutorial.findAll({
     where: {
       deleted_at: null
     },
