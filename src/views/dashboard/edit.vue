@@ -21,11 +21,14 @@
                 <el-input v-model="form.title" />
               </el-form-item>
               <el-form-item label="文章內容">
-                <el-input v-model="form.content" rows="16" type="textarea" />
+                <el-input v-model="form.content" rows="7" type="textarea" />
               </el-form-item>
-              <el-form-item label="單字卡">
+              <el-form-item label="Prompt">
+                <el-input v-model="form.prompt" rows="7" type="textarea" />
+              </el-form-item>
+              <el-form-item label="連結">
                 <el-tag
-                  v-for="tag in form.words"
+                  v-for="tag in form.link"
                   :key="tag"
                   closable
                   :disable-transitions="false"
@@ -41,7 +44,7 @@
                   @keyup.enter.native="handleInputConfirm"
                   @blur="handleInputConfirm"
                 />
-                <el-button v-else class="button-new-tag" @click="showInput">+ 新增單字</el-button>
+                <el-button v-else class="button-new-tag" @click="showInput">+ 新增連結</el-button>
               </el-form-item>
               <el-form-item>
                 <el-button :loading="loading" type="primary" @click="onSubmit">存檔</el-button>
@@ -65,8 +68,9 @@ export default {
       form: {
         title: '',
         content: '',
+        prompt: '',
         ranking: '',
-        words: []
+        link: []
       },
       loading: false,
       inputVisible: false,
@@ -86,7 +90,8 @@ export default {
         this.form.title = result.data.title
         this.form.content = result.data.content
         this.form.ranking = result.data.ranking
-        this.form.words = result.data.words || []
+        this.form.prompt = result.data.prompt
+        this.form.link = result.data.link || []
 
         this.initData = {
           role: 'assistant',
@@ -112,7 +117,7 @@ export default {
       this.$router.push('/story/')
     },
     handleClose(tag) {
-      this.form.words.splice(this.form.words.indexOf(tag), 1)
+      this.form.link.splice(this.form.link.indexOf(tag), 1)
     },
 
     showInput() {
@@ -125,8 +130,8 @@ export default {
     handleInputConfirm() {
       const inputValue = this.inputValue
       if (inputValue) {
-        if (this.form.words.indexOf(inputValue) === -1) {
-          this.form.words.push(inputValue)
+        if (this.form.link.indexOf(inputValue) === -1) {
+          this.form.link.push(inputValue)
         } else {
           this.$message({
             type: 'warn',

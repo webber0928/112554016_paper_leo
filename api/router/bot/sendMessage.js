@@ -2,14 +2,14 @@
 const axios = require('axios')
 const API_KEY = require('../../../apiKey.js').API_KEY
 const moment = require('moment-timezone')
-const { Chatbot, User, Message } = require('../../models')
+const { Chatbot, User, Message, Tutorial } = require('../../models')
 
 module.exports = async(req, res) => {
   try {
     const { messages, username, storyId } = req.body
-    const chatbot = await Chatbot.findOne({
+    const chatbot = await Tutorial.findOne({
       where: {
-        type: 'questionPrompt',
+        id: storyId,
         deleted_at: null
       }
     })
@@ -49,7 +49,7 @@ module.exports = async(req, res) => {
     const firstData = {
       user: user.id,
       story_id: storyId,
-      isBot: 0,
+      tutorial_id: storyId,
       type: 'user',
       message: JSON.stringify(messages.pop()),
       execute_date: moment().tz('Asia/Taipei').format('YYYYMMDD')
@@ -59,7 +59,7 @@ module.exports = async(req, res) => {
     const secondData = {
       user: user.id,
       story_id: storyId,
-      isBot: 1,
+      tutorial_id: storyId,
       type: response.data.choices[0].message.role,
       message: JSON.stringify({
         role: response.data.choices[0].message.role,

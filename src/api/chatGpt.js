@@ -17,7 +17,8 @@ export function initGpt() {
 }
 export function initGpt2(params) {
   return request({
-    url: '/gpt-init2',
+    url: '/gpt-init',
+    // url: '/gpt-init2',
     method: 'post',
     data: params
   })

@@ -3,7 +3,7 @@
     <div class="dashboard-text">
       <span v-if="token==='admin-token'">老師介面</span>
       <span v-else>名稱: {{ username }}</span>
-      <el-button v-if="token==='admin-token'" type="text" class="button" @click="go(nulll, 'created')">建立新的故事</el-button>
+      <el-button v-if="token==='admin-token'" type="text" class="button" @click="go(nulll, 'created')">建立新的教程</el-button>
     </div>
     <el-row :gutter="20">
       <el-col v-for="item in items" :key="item.id" :span="8" style="margin-top: 15px;">
@@ -14,7 +14,7 @@
               <p>教程標題: <b>{{ item.title }}</b></p>
               <div v-if="token==='admin-token'" style="height: 85px;">
                 連結:<br>
-                <el-tag v-for="word in item.words" :key="word" type="info" effect="plain" size="mini">{{ word }}</el-tag>
+                <el-tag v-for="word in item.link" :key="word" type="info" effect="plain" size="mini">{{ word }}</el-tag>
               </div>
               <div class="bottom clearfix" style="text-align: center;margin-top: 10px;">
                 <el-button type="text" class="button" @click="go(item.id, 'story')">進入</el-button>

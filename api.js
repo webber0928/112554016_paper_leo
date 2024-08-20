@@ -34,8 +34,8 @@ app.post('/dev-api/tutorial', require('./api/router/tutorial/create'))
 app.put('/dev-api/tutorial/:id', require('./api/router/tutorial/edit'))
 app.get('/dev-api/tutorial/:id', require('./api/router/tutorial/one'))
 
-app.post('/dev-api/gpt-init', require('./api/router/bot/step1'))
-app.post('/dev-api/gpt-init2', require('./api/router/bot/step2'))
+app.post('/dev-api/gpt-init', require('./api/router/bot/step3'))
+// app.post('/dev-api/gpt-init2', require('./api/router/bot/step2'))
 app.post('/dev-api/gpt-message', require('./api/router/bot/sendMessage'))
 
 app.put('/dev-api/prompt/edit', require('./api/router/prompt/edit'))
