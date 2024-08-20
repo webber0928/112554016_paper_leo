@@ -69,8 +69,7 @@ location /api {
 }
 ```
 
-
-## 資料庫設定
+## 資料表設定
 
 ```
 # 建立資料表 migrate 文件
@@ -83,11 +82,22 @@ npx sequelize-cli db:migrate
 npx sequelize-cli db:seed --seed 20240505072317-import-general-data.js
 ```
 
-### 建立資料表 migrate 文件
-`npx sequelize-cli migration:generate --name create_users_table`
+#### 資料庫安裝
 
-### 資料庫 migrate
-`npx sequelize-cli db:migrate`
+```
+sudo apt -y update && sudo apt -y upgrade
+sudo apt install mysql-server -y
 
-## 資料庫建立基本資料
-`npx sequelize-cli db:seed --seed 20240505072317-import-general-data.js`
+sudo mysql_secure_installation
+sudo service mysql restart
+
+# 資料庫裡面設定
+
+sudo mysql
+
+mysql> use mysql;
+mysql> UPDATE user SET plugin='mysql_native_password' WHERE User='root';
+mysql> ALTER USER 'root'@'localhost' IDENTIFIED BY '0000';
+mysql> FLUSH PRIVILEGES;
+mysql> exit;
+```
