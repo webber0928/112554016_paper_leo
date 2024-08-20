@@ -20,6 +20,10 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.TEXT,
       allowNull: false
     },
+    prompt: {
+      type: DataTypes.TEXT,
+      allowNull: false
+    },
     link: {
       type: DataTypes.TEXT,
       allowNull: true,

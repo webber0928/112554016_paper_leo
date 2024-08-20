@@ -1,13 +1,16 @@
 <template>
   <div class="app-container">
     <el-form ref="form" :model="form" label-width="120px">
-      <el-form-item label="文章標題">
+      <el-form-item label="教程標題">
         <el-input v-model="form.title" />
       </el-form-item>
-      <el-form-item label="文章內容">
+      <el-form-item label="教程內容">
         <el-input v-model="form.content" rows="6" type="textarea" />
       </el-form-item>
-      <el-form-item label="單字卡">
+      <el-form-item label="教程 Prompt">
+        <el-input v-model="form.prompt" rows="6" type="textarea" />
+      </el-form-item>
+      <el-form-item label="相關連結">
         <el-tag
           v-for="tag in form.words"
           :key="tag"

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function getList(params) {
   return request({
-    url: '/story/list',
+    url: '/tutorial/list',
     method: 'get',
     params: params
   })
@@ -10,14 +10,14 @@ export function getList(params) {
 
 export function getOne(id) {
   return request({
-    url: `/story/${id}`,
+    url: `/tutorial/${id}`,
     method: 'get'
   })
 }
 
 export function updateOne(id, params) {
   return request({
-    url: `/story/${id}`,
+    url: `/tutorial/${id}`,
     method: 'put',
     data: params
   })
@@ -25,7 +25,7 @@ export function updateOne(id, params) {
 
 export function create(params) {
   return request({
-    url: `/story/`,
+    url: `/tutorial/`,
     method: 'post',
     data: params
   })

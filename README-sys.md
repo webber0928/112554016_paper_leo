@@ -78,6 +78,9 @@ npx sequelize-cli migration:generate --name create_users_table
 # 資料庫 migrate
 npx sequelize-cli db:migrate
 
+# 移除資料庫 migrate
+npx sequelize-cli db:migrate:undo:all
+
 # 資料庫建立基本資料
 npx sequelize-cli db:seed --seed 20240505072317-import-general-data.js
 ```

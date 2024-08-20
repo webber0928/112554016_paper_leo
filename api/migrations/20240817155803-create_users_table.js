@@ -145,11 +145,15 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
+      prompt: {
+        type: Sequelize.TEXT,
+        allowNull: false
+      },
       link: {
         type: Sequelize.TEXT,
         allowNull: true
       },
-      promptId: {
+      prompt_id: {
         type: Sequelize.INTEGER,
         allowNull: true
       },

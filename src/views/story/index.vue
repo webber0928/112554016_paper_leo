@@ -6,7 +6,7 @@
           <div>
             <el-button type="text" plain @click="$router.push('/story')">返回</el-button>
           </div>
-          學號: {{ username }}
+          名稱: {{ username }}
         </el-header>
         <el-row>
           <el-col :sm="12" :md="14" :xl="16">
@@ -16,7 +16,7 @@
                   <div class="bg-purple-dark my-story">
                     <el-card class="box-card">
                       <div slot="header" class="clearfix">
-                        <span>故事標題: <b>{{ myStoryTitle }}</b></span>
+                        <span>教程標題: <b>{{ myStoryTitle }}</b></span>
                       </div>
                       <div ref="myStory">
                         <div v-if="myStory" class="text item" v-html="myStory" />
@@ -212,7 +212,7 @@ export default {
       this.$alert(`
         <h2>${key}: ${this.wordObj[key]}</h2>
         <button id="playButton">播放</button>
-        `, '單字卡', {
+        `, 'xu06ru', {
         dangerouslyUseHTMLString: true,
         callback: () => {
           document.getElementById('playButton').removeEventListener('click', this.playClick)
