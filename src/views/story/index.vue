@@ -138,17 +138,17 @@ export default {
     async initGptData2(initData) {
       try {
         const loadingInstance = Loading.service({ fullscreen: true })
-        const result = await initGpt2({
-          message: initData,
-          username: this.username,
-          storyId: this.$route.params.id
-        })
+        // const result = await initGpt2({
+        //   message: initData,
+        //   username: this.username,
+        //   storyId: this.$route.params.id
+        // })
         loadingInstance.close()
-        this.story = result.data
-        this.historyItems.push({
-          role: result.data.choices[0].message.role,
-          content: result.data.choices[0].message.content
-        })
+        // this.story = result.data
+        // this.historyItems.push({
+        //   role: result.data.choices[0].message.role,
+        //   content: result.data.choices[0].message.content
+        // })
         this.$message({
           type: 'success',
           message: '學生已登入成功！'

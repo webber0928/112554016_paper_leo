@@ -20,10 +20,6 @@ module.exports = (sequelize, DataTypes) => {
       type: DataTypes.STRING,
       allowNull: true
     },
-    isBot: {
-      type: DataTypes.BOOLEAN,
-      allowNull: false
-    },
     message: {
       type: DataTypes.TEXT,
       allowNull: false,

@@ -84,7 +84,7 @@ export const constantRoutes = [
       path: 'story',
       name: 'Story',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Story', icon: 'form' }
+      meta: { title: '教程列表', icon: 'form' }
     }]
   },
 
@@ -95,7 +95,7 @@ export const constantRoutes = [
       path: '',
       name: 'StoryCreate',
       component: () => import('@/views/dashboard/create'),
-      meta: { title: 'StoryCreate', icon: 'dashboard', roles: ['admin-token'] }
+      meta: { title: '教程建立', icon: 'dashboard', roles: ['admin-token'] }
     }]
     // hidden: true
   },
@@ -104,7 +104,7 @@ export const constantRoutes = [
     path: '/story/:id',
     name: 'Story',
     component: () => import('@/views/story/index'),
-    meta: { title: 'Story', icon: 'el-icon-chat-line-round' },
+    meta: { title: '教程', icon: 'el-icon-chat-line-round' },
     hidden: true
   },
 
@@ -154,8 +154,8 @@ export const constantRoutes = [
         component: () => import('@/views/prompt/list'),
         meta: { title: 'ListPrompt', icon: 'form', roles: ['admin-token'] }
       }
-    ]
-    // hidden: true
+    ],
+    hidden: true
   },
   // {
   //   path: '/example',

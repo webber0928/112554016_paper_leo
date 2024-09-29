@@ -1,10 +1,10 @@
 
-const { Story } = require('../../models')
+const { Tutorial } = require('../../models')
 
 module.exports = async(req, res) => {
   const { title, content, ranking, promptId, link = [] } = req.body
   try {
-    const item = await Story.findOne({
+    const item = await Tutorial.findOne({
       where: {
         id: req.params.id,
         deleted_at: null
