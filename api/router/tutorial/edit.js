@@ -2,7 +2,7 @@
 const { Tutorial } = require('../../models')
 
 module.exports = async(req, res) => {
-  const { title, content, ranking, promptId, link = [] } = req.body
+  const { title, content, ranking, prompt, link = [] } = req.body
   try {
     const item = await Tutorial.findOne({
       where: {
@@ -19,8 +19,8 @@ module.exports = async(req, res) => {
     if (content && item.content !== content) {
       item.set('content', content)
     }
-    if (promptId && item.promptId !== promptId) {
-      item.set('promptId', promptId)
+    if (prompt && item.prompt !== prompt) {
+      item.set('prompt', prompt)
     }
     if (link && item.link !== link) {
       item.set('link', formatLinks)
