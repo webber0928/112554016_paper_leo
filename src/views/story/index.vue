@@ -9,7 +9,7 @@
           名稱: {{ username }}
         </el-header>
         <el-row>
-          <el-col :sm="12" :md="14" :xl="16">
+          <!-- <el-col :sm="12" :md="8" :xl="8">
             <div class="grid-content bg-purple-dark">
               <el-row>
                 <el-col :span="24">
@@ -30,10 +30,13 @@
                 </el-col>
               </el-row>
             </div>
-          </el-col>
-          <el-col :sm="12" :md="10" :xl="8">
+          </el-col> -->
+          <el-col :sm="12" :md="24" :xl="16">
             <div class="my-chat bg-purple-dark">
               <el-card class="box-card">
+                <div slot="header" class="clearfix">
+                  <span><b>教程標題: {{ myStoryTitle }}</b></span>
+                </div>
                 <div ref="chatBox" class="container">
                   <div v-for="(item, index) in historyItems" :key="index" class="history-item" :class="`${item.role === 'user'? 'user': 'model'}-role`">
                     <div class="name">{{ item.role === 'user'? '你': '小夥伴' }}</div>
@@ -321,11 +324,15 @@ blockquote {
 
 .history-item.model-role {
   background: rgba(127, 127, 127, 0.1);
+  color: #1d20d4;
 }
 
 .history-item > blockquote {
   flex-grow: 1;
   margin: 0;
+  font-size: 16px;
+  line-height: 180%;
+  padding: 12px;
 }
 blockquote {
   white-space: break-spaces;
