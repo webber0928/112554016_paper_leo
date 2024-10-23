@@ -59,6 +59,14 @@ npm run build
 cp -a dist/* www/
 sudo cp -a www/* /var/www/112554016-paper/
 ```
+
+### PM2
+```
+pm2 start npm --name "my-app" -- run api --log-date-format "YYYY-MM-DD HH:mm:ss"
+pm2 start api.js --name "leo-app" --log-date-format "YYYY-MM-DD HH:mm:ss" --watch api --watch-delay 5000
+pm2 start api.js --name "wb-app" --log-date-format "YYYY-MM-DD HH:mm:ss" --watch api --watch-delay 5000
+```
+
 ## Advanced
 
 ```bash
