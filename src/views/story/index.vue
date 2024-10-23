@@ -31,7 +31,7 @@
               </el-row>
             </div>
           </el-col> -->
-          <el-col :sm="12" :md="24" :xl="16">
+          <el-col :sm="24" :md="24" :xl="16">
             <div class="my-chat bg-purple-dark">
               <el-card class="box-card">
                 <div slot="header" class="clearfix">
@@ -100,17 +100,17 @@ export default {
     ...mapGetters(['name', 'username'])
   },
   mounted() {
-    this.$refs.myStory.addEventListener('copy', (event) => {
-      event.preventDefault()
-      alert(`不可以壞壞`)
-    })
+    // this.$refs.myStory.addEventListener('copy', (event) => {
+    //   event.preventDefault()
+    //   alert(`不可以壞壞`)
+    // })
 
     // 使用事件委托监听动态生成的按钮点击事件
-    this.$refs.myStory.addEventListener('click', (event) => {
-      if (event.target.tagName === 'BUTTON') {
-        this.handleClick(event.target.textContent)
-      }
-    })
+    // this.$refs.myStory.addEventListener('click', (event) => {
+    //   if (event.target.tagName === 'BUTTON') {
+    //     this.handleClick(event.target.textContent)
+    //   }
+    // })
   },
   created() {
     this.initGptData(this.$route.params.id)
