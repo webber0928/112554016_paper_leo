@@ -2,7 +2,7 @@
 const { Tutorial } = require('../../models')
 
 module.exports = async(req, res) => {
-  const { title, content, ranking, prompt, link = [] } = req.body
+  const { title, content, ranking, prompt, link = [], isVisible } = req.body
   try {
     const item = await Tutorial.findOne({
       where: {
@@ -24,6 +24,10 @@ module.exports = async(req, res) => {
     }
     if (link && item.link !== link) {
       item.set('link', formatLinks)
+    }
+
+    if ((isVisible || isVisible === false) && item.isVisible !== isVisible) {
+      item.set('isVisible', isVisible)
     }
 
     if (ranking) item.set('ranking', ranking)
