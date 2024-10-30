@@ -24,7 +24,7 @@
                 <el-input v-model="form.content" rows="7" type="textarea" />
               </el-form-item>
               <el-form-item label="Prompt">
-                <el-input v-model="form.prompt" rows="7" type="textarea" />
+                <el-input v-model="form.prompt" rows="20" type="textarea" />
               </el-form-item>
               <el-form-item label="連結">
                 <el-tag
