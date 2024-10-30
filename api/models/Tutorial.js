@@ -37,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       allowNull: true,
       field: 'prompt_id'
     },
+    isVisible: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: true // 預設值為 true
+    },
     deleted_at: {
       type: DataTypes.BIGINT,
       allowNull: true
