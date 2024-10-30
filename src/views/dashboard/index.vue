@@ -10,12 +10,20 @@
         <div class="grid-content bg-purple">
           <el-card :body-style="{ padding: '0px' }">
             <div style="padding: 14px;">
-              <span>編號: <b>{{ item.ranking }}</b></span>
+              <span>
+                編號: <b>{{ item.ranking }}</b>
+              </span>
+              <el-switch
+                v-if="token==='admin-token'"
+                v-model="item.isVisible"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+                active-text="開啟"
+                inactive-text="隱藏"
+                style="float: right"
+                @change="switchStory(item.id, item.isVisible)"
+              />
               <p>教程標題: <b>{{ item.title }}</b></p>
-              <div v-if="token==='admin-token'" style="height: 85px;">
-                連結:<br>
-                <el-tag v-for="word in item.link" :key="word" type="info" effect="plain" size="mini">{{ word }}</el-tag>
-              </div>
               <div class="bottom clearfix" style="text-align: center;margin-top: 10px;">
                 <el-button type="text" class="button" @click="go(item.id, 'story')">進入</el-button>
                 <el-button v-if="token==='admin-token'" type="text" class="button" @click="go(item.id, 'edit')">修改</el-button>
@@ -31,7 +39,7 @@
 <script>
 import { mapGetters } from 'vuex'
 import { Loading } from 'element-ui'
-import { getList } from '@/api/story'
+import { getList, updateOne } from '@/api/story'
 
 export default {
   name: 'Dashboard',
@@ -55,7 +63,9 @@ export default {
         const loadingInstance = Loading.service({ fullscreen: true })
         const result = await getList()
         loadingInstance.close()
-        this.items = result.data.items
+        this.items = result.data.items.filter((item) => {
+          return item.isVisible || this.token === 'admin-token'
+        })
       } catch (error) {
         this.$message(error)
       }
@@ -76,6 +86,15 @@ export default {
       } catch (error) {
         this.$message(error)
       }
+    },
+    async switchStory(id, isVisible) {
+      this.items.map((item) => {
+        if (item.id === id) {
+          item.isVisible = !!isVisible
+        }
+        return item
+      })
+      await updateOne(id, { isVisible: !!isVisible })
     }
   }
 }
