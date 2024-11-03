@@ -465,7 +465,7 @@ blockquote {
   .el-card .el-card__body {
     height: 100%;
     overflow: auto;
-    padding-bottom: 100px;
+    padding-bottom: 160px;
   }
 
 }
