@@ -80,7 +80,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['name', 'username'])
+    ...mapGetters([
+      'name', 'username', 'token', 'userId'
+    ])
   },
   created() {
     this.initData(this.$route.params.id)

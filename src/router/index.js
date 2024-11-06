@@ -256,19 +256,19 @@ export const constantRoutes = [
     component: Layout,
     redirect: '/teacher',
     name: 'Teacher',
-    meta: { title: '老師儀錶板', icon: 'el-icon-s-data', roles: ['admin-token'] },
+    meta: { title: '聊天資料', icon: 'el-icon-s-data' },
     children: [
       {
         path: 'dashbord',
         component: () => import('@/views/teacher/dashbord'),
         name: 'dashbord',
-        meta: { title: '學生資料', icon: 'el-icon-s-data', roles: ['admin-token'] }
+        meta: { title: '聊天資料', icon: 'el-icon-s-data' }
       },
       {
         path: 'user/:id',
         component: () => import('@/views/teacher/userOne'),
         name: 'user',
-        meta: { title: '學生資料', icon: 'el-icon-s-data', roles: ['admin-token'] },
+        meta: { title: '學生資料', icon: 'el-icon-s-data' },
         hidden: true
       }
     ]

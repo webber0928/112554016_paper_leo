@@ -49,7 +49,9 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['name', 'username'])
+    ...mapGetters([
+      'name', 'username', 'token', 'userId'
+    ])
   },
   created() {
     this.initData(this.$route.params.id)
@@ -61,6 +63,9 @@ export default {
         const result = await getInfo()
         loadingInstance.close()
         this.items = result.data
+        if (this.token !== 'admin-token') {
+          this.items = result.data.filter((item) => item.id === this.userId * 1)
+        }
       } catch (error) {
         this.$message(error)
       }

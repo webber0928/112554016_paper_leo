@@ -43,7 +43,6 @@ export default {
       }
 
       this.levelList = matched.filter(item => {
-        console.log(item, 'L46')
         return item.meta && item.meta.title && item.meta.breadcrumb !== false
       })
     },
