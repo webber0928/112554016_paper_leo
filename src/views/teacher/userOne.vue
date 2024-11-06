@@ -25,7 +25,7 @@
           </el-table-column>
           <el-table-column align="center" label="角色" width="80">
             <template slot-scope="scope">
-              {{ scope.row.message.role }}
+              {{ scope.row.message.role === 'user' ? '學生' : 'BOT' }}
             </template>
           </el-table-column>
           <el-table-column label="對話">
