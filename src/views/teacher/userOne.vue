@@ -1,6 +1,6 @@
 <template>
   <div class="dashboard-container">
-    <div class="dashboard-text">學號: {{ username }}</div>
+    <div class="dashboard-text">學號: {{ user_no }}</div>
     <el-row :gutter="20">
       <el-col
         v-for="(items, key) in obj"
