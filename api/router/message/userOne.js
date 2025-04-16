@@ -3,7 +3,7 @@ const { Message, User } = require('../../models')
 module.exports = async(req, res) => {
   try {
     const Sequelize = require('sequelize')
-    const message = await Message.findAll({
+    let message = await Message.findAll({
       where: {
         user: req.params.userId
       },
