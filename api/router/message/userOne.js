@@ -1,4 +1,4 @@
-const { Message } = require('../../models')
+const { Message, User } = require('../../models')
 
 module.exports = async(req, res) => {
   try {
@@ -15,6 +15,20 @@ module.exports = async(req, res) => {
         ]
       }
     })
+
+    if (message.length) {
+      let userId = message[0].user
+      const user = await User.findOne({
+        where: {
+          id: userId
+        }
+      })
+
+      message = message.map((item) => {
+        item.user = user.user_no
+        return item
+      })
+    }
 
     return res.json({ code: 20000, data: message })
   } catch (error) {

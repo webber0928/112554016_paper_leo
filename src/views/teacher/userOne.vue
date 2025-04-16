@@ -76,7 +76,8 @@ export default {
   data() {
     return {
       obj: {},
-      listLoading: false
+      listLoading: false,
+      user_no: ''
     }
   },
   computed: {
@@ -90,10 +91,12 @@ export default {
   methods: {
     async initData(id) {
       try {
+        const self = this
         const loadingInstance = Loading.service({ fullscreen: true })
         const result = await getUser(id)
         loadingInstance.close()
         result.data.forEach(item => {
+          self.user_no = item.user
           if (!this.obj[item.dateDay]) this.$set(this.obj, item.dateDay, [])
           this.obj[item.dateDay].push(item)
         })
