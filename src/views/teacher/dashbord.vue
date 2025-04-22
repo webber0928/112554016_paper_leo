@@ -72,7 +72,9 @@ export default {
     },
     async go(id) {
       try {
-        this.$router.push('/teacher/user/' + id)
+        // this.$router.push('/teacher/user/' + id)
+        const url = this.$router.resolve({ path: `/teacher/user/${id}` }).href;
+        window.open(url, '_blank');
       } catch (error) {
         this.$message(error)
       }

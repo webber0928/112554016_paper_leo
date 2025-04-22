@@ -3,7 +3,7 @@
     <div class="dashboard-text">學號: {{ user_no }}</div>
     <el-row :gutter="20">
       <el-col
-        v-for="(items, key) in obj"
+        v-for="(items, key) in arr"
         :key="key"
         :span="24"
         style="margin-top: 15px"
@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       obj: {},
+      arr: [],
       listLoading: false,
       user_no: ''
     }
@@ -97,9 +98,12 @@ export default {
         loadingInstance.close()
         result.data.forEach(item => {
           self.user_no = item.user
+          document.title = item.user + '的歷史紀錄'
           if (!this.obj[item.dateDay]) this.$set(this.obj, item.dateDay, [])
           this.obj[item.dateDay].push(item)
         })
+
+        this.arr = Object.values(this.obj).reverse()
         // this.items = result.data
       } catch (error) {
         this.$message(error)
@@ -132,6 +136,10 @@ export default {
     font-size: 30px;
     line-height: 46px;
   }
+}
+
+.dashboard-container {
+  padding: 20px;
 }
 
 blockquote {
